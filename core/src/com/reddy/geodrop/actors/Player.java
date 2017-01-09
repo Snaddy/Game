@@ -40,7 +40,7 @@ public class Player extends Sprite implements Disposable {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius((player.getWidth() - 10) / 2 / Main.PPM);
+        shape.setRadius((player.getWidth() - 5) / 2 / Main.PPM);
 
         fdef.shape = shape;
         fdef.friction = 0f;

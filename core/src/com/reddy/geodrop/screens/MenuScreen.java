@@ -48,6 +48,7 @@ public class MenuScreen implements Screen {
         play = new ImageButton(drawPlay);
         credits = new ImageButton(drawCredits);
         System.out.println(gameCam.position);
+        game.playMusic();
     }
 
     @Override
@@ -68,6 +69,7 @@ public class MenuScreen implements Screen {
             }
         });
 
+        //puts menu buttons half way on screen
         play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 590);
         credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 290);
         stage.addActor(credits);
@@ -77,6 +79,9 @@ public class MenuScreen implements Screen {
     public void update(){
         gameCam.position.x = gameCam.position.x + 6f;
         gameCam.update();
+        if(gameCam.position.x >= 3117){
+            gameCam.position.x = 960;
+        }
     }
 
     @Override

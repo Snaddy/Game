@@ -41,7 +41,7 @@ public class GameRectangle extends Sprite implements Disposable{
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(300 / Main.PPM, 15 / Main.PPM);
+        shape.setAsBox(300 / Main.PPM, 20 / Main.PPM);
         fdef.shape = shape;
         fdef.friction = 1f;
         fdef.restitution = 0f;
@@ -50,7 +50,7 @@ public class GameRectangle extends Sprite implements Disposable{
     }
 
     public void update(){
-        this.setPosition(body.getPosition().x - 300 / Main.PPM, body.getPosition().y - 15 / Main.PPM);
+        this.setPosition(body.getPosition().x - 300 / Main.PPM, body.getPosition().y - 20 / Main.PPM);
         this.setOrigin(rect.getX() + rect.getWidth()/ Main.PPM, rect.getY() + rect.getHeight()/ Main.PPM);
         this.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
     }

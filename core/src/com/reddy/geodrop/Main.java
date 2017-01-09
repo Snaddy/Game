@@ -69,7 +69,7 @@ public class Main extends Game {
 		gameSound = manager.get("audio/song.ogg", Music.class);
 		gameSound.setLooping(true);
 		gameSound.setVolume(0.5f);
-		gameSound.play();
+
 
 		setScreen(new SplashScreen(this));
 	}
@@ -83,6 +83,10 @@ public class Main extends Game {
 		batch.dispose();
 		gameSound.dispose();
 		manager.dispose();
+	}
+
+	public void playMusic(){
+		gameSound.play();
 	}
 
 	public void setVolume(){

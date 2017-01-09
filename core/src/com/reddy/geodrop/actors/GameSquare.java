@@ -41,7 +41,7 @@ public class GameSquare extends Sprite implements Disposable{
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(100 / Main.PPM, 35 / Main.PPM);
+        shape.setAsBox(75 / Main.PPM, 40 / Main.PPM);
         fdef.shape = shape;
         fdef.friction = 1f;
         fdef.restitution = 0f;
@@ -50,7 +50,7 @@ public class GameSquare extends Sprite implements Disposable{
     }
 
     public void update(){
-        this.setPosition(body.getPosition().x - 100 / Main.PPM, body.getPosition().y - 35 / Main.PPM);
+        this.setPosition(body.getPosition().x - 75 / Main.PPM, body.getPosition().y - 40 / Main.PPM);
         this.setOrigin(sq.getX() + sq.getWidth() / Main.PPM, sq.getY() + sq.getHeight() / Main.PPM);
         this.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
     }

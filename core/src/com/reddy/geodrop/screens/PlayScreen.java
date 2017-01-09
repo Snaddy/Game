@@ -154,21 +154,22 @@ public class PlayScreen implements Screen {
             game.batch.draw(game.manager.get("actors/rectangle.png", Texture.class),
                     rect.getX(), rect.getY(),
                     rect.getOriginX(), rect.getOriginY(),
-                    602 / Main.PPM, 32 / Main.PPM,
+                    602 / Main.PPM, 42 / Main.PPM,
                     1f, 1f,
-                    rect.getRotation(), (int)rect.getWidth(), (int)rect.getHeight(),
-                    (int) rect.getWidth(), (int) rect.getHeight(), false, false);
+                    rect.getRotation(), 0, 0,
+                    300, 20, false, false);
         }
 
         for(GameSquare sq : squares){
             game.batch.draw(game.manager.get("actors/square.png", Texture.class),
                     sq.getX(), sq.getY(),
                     sq.getOriginX(), sq.getOriginY(),
-                    202 / Main.PPM, 72 / Main.PPM,
+                    152 / Main.PPM, 82 / Main.PPM,
                     1f, 1f,
-                    sq.getRotation(), (int)sq.getWidth(), (int)sq.getHeight(),
-                    (int) sq.getWidth(), (int) sq.getHeight(), false, false);
+                    sq.getRotation(), 0, 0,
+                    75, 40, false, false);
         }
+
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
