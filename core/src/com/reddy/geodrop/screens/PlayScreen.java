@@ -2,6 +2,8 @@ package com.reddy.geodrop.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -79,15 +81,30 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float dt) {
         //jump when screen is touched only if touching the ground
-        if (gcl.isPlayerOnGround() && Gdx.input.justTouched()) {
-            player.body.applyLinearImpulse(new Vector2(0, 3.75f), player.body.getWorldCenter(), true);
+        //also do not allow multi touch to apply linear velocity more than once
+        int count = 0;
+        for (int i = 0; i < 10; i++) {
+            if (Gdx.input.isTouched(i))
+                count++;
         }
-
+        if(Gdx.input.justTouched()) {
+            System.out.println(count);
+            if (gcl.isPlayerOnGround() && count == 1)
+                player.body.applyLinearImpulse(new Vector2(0, 3.75f), player.body.getWorldCenter(), true);
+        }
         //spawn rectangle and squares
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
-            rectangles.add(new GameRectangle(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
-            squares.add(new GameSquare(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/square.png", Texture.class)));
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            if (hud.getScore() >= 300) {
+                rectangles.add(new GameRectangle(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
+                hud.addScore(-300);
+            }
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            if (hud.getScore() >= 100) {
+                squares.add(new GameSquare(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/square.png", Texture.class)));
+                hud.addScore(-100);
+            }
+        }
 
     }
 

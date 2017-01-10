@@ -24,8 +24,8 @@ import com.reddy.geodrop.Main;
 public class MenuScreen implements Screen {
 
     private ImageButton play, credits;
-    private Texture playText, creditsText, bg;
-    private Drawable drawPlay, drawCredits;
+    private Texture playText, creditsText, bg, playTextDown, creditsTextDown;
+    private Drawable drawPlay, drawCredits, drawPlayDown, drawCreditsDown;
     private Stage stage;
     private Preferences prefs;
     private Main game;
@@ -39,14 +39,22 @@ public class MenuScreen implements Screen {
         gameCam = new OrthographicCamera();
         viewPort = new StretchViewport(Main.WIDTH, Main.HEIGHT, gameCam);
         gameCam.setToOrtho(false, Main.WIDTH, Main.HEIGHT);
-        playText = game.manager.get("ui/play.png");
-        creditsText = game.manager.get("ui/credits.png");
+        playText = game.manager.get("ui/playup.png");
+        playText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        creditsText = game.manager.get("ui/creditsup.png");
+        creditsText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        creditsTextDown = game.manager.get("ui/credits.png");
+        creditsTextDown.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        playTextDown = game.manager.get("ui/play.png");
+        playTextDown.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         bg = game.manager.get("ui/bg.png");
         drawPlay = new TextureRegionDrawable(new TextureRegion(playText));
         drawCredits = new TextureRegionDrawable(new TextureRegion(creditsText));
+        drawCreditsDown = new TextureRegionDrawable(new TextureRegion(creditsTextDown));
+        drawPlayDown = new TextureRegionDrawable(new TextureRegion(playTextDown));
         //buttons
-        play = new ImageButton(drawPlay);
-        credits = new ImageButton(drawCredits);
+        play = new ImageButton(drawPlay, drawPlayDown);
+        credits = new ImageButton(drawCredits, drawCreditsDown);
         System.out.println(gameCam.position);
         game.playMusic();
     }
@@ -70,18 +78,10 @@ public class MenuScreen implements Screen {
         });
 
         //puts menu buttons half way on screen
-        play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 590);
-        credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 290);
+        play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 890);
+        credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 590);
         stage.addActor(credits);
         stage.addActor(play);
-    }
-
-    public void update(){
-        gameCam.position.x = gameCam.position.x + 6f;
-        gameCam.update();
-        if(gameCam.position.x >= 3117){
-            gameCam.position.x = 960;
-        }
     }
 
     @Override
@@ -90,12 +90,10 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        update();
-
         game.batch.setProjectionMatrix(gameCam.combined);
 
         game.batch.begin();
-        game.batch.draw(bg, 0, 0, 4320, 1152);
+        game.batch.draw(bg, 0, 0);
         game.batch.end();
 
         stage.draw();

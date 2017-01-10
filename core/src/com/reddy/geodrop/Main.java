@@ -54,6 +54,10 @@ public class Main extends Game {
 		manager.load("ui/credits.png", Texture.class);
 		manager.load("ui/menu.png", Texture.class);
 		manager.load("ui/next.png", Texture.class);
+		manager.load("ui/playup.png", Texture.class);
+		manager.load("ui/creditsup.png", Texture.class);
+		manager.load("ui/nextup.png", Texture.class);
+		manager.load("ui/menuup.png", Texture.class);
 		manager.load("ui/bg.png", Texture.class);
 		//load sounds
 		manager.load("audio/song.ogg", Music.class);
