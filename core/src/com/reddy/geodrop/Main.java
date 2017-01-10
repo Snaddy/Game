@@ -59,6 +59,9 @@ public class Main extends Game {
 		manager.load("ui/nextup.png", Texture.class);
 		manager.load("ui/menuup.png", Texture.class);
 		manager.load("ui/bg.png", Texture.class);
+		manager.load("ui/buyRect.png", Texture.class);
+		manager.load("ui/buySquare.png", Texture.class);
+		manager.load("ui/jump.png", Texture.class);
 		//load sounds
 		manager.load("audio/song.ogg", Music.class);
 		manager.load("audio/pickup.ogg", Sound.class);
