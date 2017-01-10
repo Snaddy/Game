@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -19,6 +20,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -43,7 +50,7 @@ public class PlayScreen implements Screen {
 
     public static Main game;
     public static int level;
-    public OrthographicCamera gameCam;
+    private OrthographicCamera gameCam;
     private Viewport viewPort;
     private World world;
     private Box2DDebugRenderer debug;
@@ -55,6 +62,12 @@ public class PlayScreen implements Screen {
     private Hud hud;
     private ArrayList<GameRectangle> rectangles;
     private ArrayList<GameSquare> squares;
+    private Stage stage;
+
+    //ui stage
+    private ImageButton buySq, buyRect, jump;
+    private Texture sqText, rectText, jumpText;
+    private Drawable drawSq, drawRect, drawJump;
 
     public PlayScreen(Main game, int level) {
         this.game = game;
@@ -63,6 +76,7 @@ public class PlayScreen implements Screen {
         viewPort = new StretchViewport(Main.WIDTH / Main.PPM, Main.HEIGHT / Main.PPM, gameCam);
         gameCam.setToOrtho(false, viewPort.getWorldWidth(), viewPort.getWorldHeight());
         gameCam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
+        stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
         map = game.manager.get("levels/level" + level + ".tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PPM);
         world = new World(new Vector2(0, -10), true);
@@ -77,46 +91,27 @@ public class PlayScreen implements Screen {
         //arraylists
         rectangles = new ArrayList<GameRectangle>();
         squares = new ArrayList<GameSquare>();
-    }
 
-    public void handleInput(float dt) {
-        //jump when screen is touched only if touching the ground
-        //also do not allow multi touch to apply linear velocity more than once
-        int count = 0;
-        for (int i = 0; i < 10; i++) {
-            if (Gdx.input.isTouched(i))
-                count++;
-        }
-        if(Gdx.input.justTouched()) {
-            System.out.println(count);
-            if (gcl.isPlayerOnGround() && count == 1)
-                player.body.applyLinearImpulse(new Vector2(0, 3.75f), player.body.getWorldCenter(), true);
-        }
-        //spawn rectangle and squares
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            if (hud.getScore() >= 300) {
-                rectangles.add(new GameRectangle(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
-                hud.addScore(-300);
-            }
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            if (hud.getScore() >= 100) {
-                squares.add(new GameSquare(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/square.png", Texture.class)));
-                hud.addScore(-100);
-            }
-        }
+        //stage buttons
+        sqText = game.manager.get("ui/buySquare.png");
+        rectText = game.manager.get("ui/buyRect.png");
+        jumpText = game.manager.get("ui/jump.png");
+        drawSq = new TextureRegionDrawable(new TextureRegion(sqText));
+        drawRect = new TextureRegionDrawable(new TextureRegion(rectText));
+        drawJump = new TextureRegionDrawable(new TextureRegion(jumpText));
+        //buttons
+        buySq = new ImageButton(drawSq);
+        buyRect = new ImageButton(drawRect);
+        jump = new ImageButton(drawJump);
 
     }
 
-    public void update(float dt) {
+    private void update(float dt) {
 
         if (player.body.getLinearVelocity().x <= 3f)
             player.body.applyLinearImpulse(new Vector2(0.1f, 0), player.body.getWorldCenter(), true);
         if (player.body.getLinearVelocity().x > 3.1f)
             player.body.applyLinearImpulse(new Vector2(-0.1f, 0), player.body.getWorldCenter(), true);
-
-
-        handleInput(dt);
 
         //move with player while they're moving
         if (player.getX() + 650 / Main.PPM >= gameCam.position.x) {
@@ -150,6 +145,46 @@ public class PlayScreen implements Screen {
             death.play(0.8f);
             game.setScreen(new PlayScreen(game, level));
         }
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+        buySq.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (hud.getScore() >= 100) {
+                    squares.add(new GameSquare(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/square.png", Texture.class)));
+                    hud.addScore(-100);
+
+                }
+            }
+        });
+
+        buyRect.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (hud.getScore() >= 300) {
+                    rectangles.add(new GameRectangle(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
+                    hud.addScore(-300);
+                }
+            }
+        });
+
+        jump.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (gcl.isPlayerOnGround() )
+                    player.body.applyLinearImpulse(new Vector2(0, 3.75f), player.body.getWorldCenter(), true);
+            }
+        });
+
+        buySq.setPosition(Main.WIDTH - 400, Main.HEIGHT - 1200);
+        buyRect.setPosition(Main.WIDTH - 800, Main.HEIGHT - 1200);
+        jump.setPosition(800, Main.HEIGHT -1200);
+        stage.addActor(buyRect);
+        stage.addActor(buySq);
+        stage.addActor(jump);
     }
 
     @Override
@@ -191,12 +226,9 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+        stage.draw();
     }
 
-    @Override
-    public void show() {
-
-    }
 
     @Override
     public void resize(int width, int height) {
