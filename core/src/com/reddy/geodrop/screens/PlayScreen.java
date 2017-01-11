@@ -145,6 +145,12 @@ public class PlayScreen implements Screen {
             death.play(0.8f);
             game.setScreen(new PlayScreen(game, level));
         }
+
+        if(gcl.isPlayerOnGround())
+            System.out.println("can jump");
+         else
+            System.out.println("cant jump");
+
     }
 
     @Override
