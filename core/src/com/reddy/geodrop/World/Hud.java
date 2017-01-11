@@ -33,7 +33,7 @@ public class Hud implements Disposable{
         stage = new Stage(viewport, sb);
         score = 0;
 
-        initFonts();
+        initFont();
 
         scoreLabel = new Label(String.format("%04d", score), new Label.LabelStyle(font100, Color.WHITE));
         scoreLabel.setPosition(Main.WIDTH / 2 - scoreLabel.getWidth() / 2, Main.HEIGHT - 150);
@@ -52,7 +52,7 @@ public class Hud implements Disposable{
         return score;
     }
 
-    private void initFonts() {
+    private void initFont() {
         FreeTypeFontGenerator g = new FreeTypeFontGenerator(Gdx.files.internal("fonts/soupofjustice.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
