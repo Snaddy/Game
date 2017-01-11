@@ -73,10 +73,14 @@ public class Main extends Game {
 		manager.load("audio/pickup.ogg", Sound.class);
 		manager.load("audio/death.ogg", Sound.class);
 		manager.load("audio/victory.ogg", Sound.class);
+		manager.load("audio/button.ogg", Sound.class);
 		//load maps
 		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		manager.load("levels/level1.tmx", TiledMap.class);
 		manager.load("levels/level2.tmx", TiledMap.class);
+		manager.load("levels/level3.tmx", TiledMap.class);
+		manager.load("levels/level5.tmx", TiledMap.class);
+		manager.load("levels/level15.tmx", TiledMap.class);
 		manager.finishLoading();
 
 		gameSound = manager.get("audio/song.ogg", Music.class);

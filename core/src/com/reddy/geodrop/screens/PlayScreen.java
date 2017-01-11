@@ -216,10 +216,10 @@ public class PlayScreen implements Screen {
             game.batch.draw(game.manager.get("actors/square.png", Texture.class),
                     sq.getX(), sq.getY(),
                     sq.getOriginX(), sq.getOriginY(),
-                    152 / Main.PPM, 82 / Main.PPM,
+                    142 / Main.PPM, 72 / Main.PPM,
                     1f, 1f,
                     sq.getRotation(), 0, 0,
-                    75, 40, false, false);
+                    70, 35, false, false);
         }
 
         game.batch.end();

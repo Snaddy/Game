@@ -3,6 +3,7 @@ package com.reddy.geodrop.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -28,6 +29,7 @@ public class ScreenSelect implements Screen{
     private Drawable drawLocked, drawUnlocked, drawUnlockedDown;
     private Stage stage;
     private Preferences prefs;
+    private Sound buttonSound;
 
     public ScreenSelect(Main game){
         this.game = game;
@@ -44,6 +46,8 @@ public class ScreenSelect implements Screen{
         prefs = Gdx.app.getPreferences("prefs");
 
         initLevelSelect();
+
+        buttonSound = game.manager.get("audio/button.ogg", Sound.class);
     }
 
     @Override
@@ -74,6 +78,7 @@ public class ScreenSelect implements Screen{
                     button[i][j].addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
+                            buttonSound.play(0.25f);
                             game.setScreen(new PlayScreen(game, id));
                             stage.clear();
                         }

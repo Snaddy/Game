@@ -2,6 +2,7 @@ package com.reddy.geodrop.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -30,6 +31,7 @@ public class MenuScreen implements Screen {
     private Main game;
     private OrthographicCamera gameCam;
     private Viewport viewPort;
+    private Sound buttonSound;
 
     public MenuScreen(Main game) {
         this.game = game;
@@ -54,6 +56,8 @@ public class MenuScreen implements Screen {
         play = new ImageButton(drawPlay, drawPlayDown);
         credits = new ImageButton(drawCredits, drawCreditsDown);
         game.playMusic();
+
+        buttonSound = game.manager.get("audio/button.ogg", Sound.class);
     }
 
     @Override
@@ -62,6 +66,7 @@ public class MenuScreen implements Screen {
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                buttonSound.play(0.25f);
                 game.setScreen(new ScreenSelect(game));
                 stage.clear();
             }
@@ -70,6 +75,7 @@ public class MenuScreen implements Screen {
         credits.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                buttonSound.play(0.25f);
                 stage.clear();
             }
         });
