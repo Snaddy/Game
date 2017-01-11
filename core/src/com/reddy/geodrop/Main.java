@@ -28,6 +28,8 @@ public class Main extends Game {
 	public static final int HEIGHT = 1152;
 	public static final	float PPM = 100;
 
+	public BitmapFont font100, font80;
+
 	public SpriteBatch batch;
 
 	public Music gameSound;
@@ -62,6 +64,10 @@ public class Main extends Game {
 		manager.load("ui/buyRect.png", Texture.class);
 		manager.load("ui/buySquare.png", Texture.class);
 		manager.load("ui/jump.png", Texture.class);
+		manager.load("ui/box.png", Texture.class);
+		manager.load("ui/boxDown.png", Texture.class);
+		manager.load("ui/grassBg.png", Texture.class);
+		manager.load("ui/locked.png", Texture.class);
 		//load sounds
 		manager.load("audio/song.ogg", Music.class);
 		manager.load("audio/pickup.ogg", Sound.class);
@@ -77,6 +83,7 @@ public class Main extends Game {
 		gameSound.setLooping(true);
 		gameSound.setVolume(0.5f);
 
+		initFonts();
 
 		setScreen(new SplashScreen(this));
 	}
@@ -90,6 +97,8 @@ public class Main extends Game {
 		batch.dispose();
 		gameSound.dispose();
 		manager.dispose();
+		font80.dispose();
+		font100.dispose();
 	}
 
 	public void playMusic(){
@@ -104,5 +113,20 @@ public class Main extends Game {
 				gameSound.setVolume(0.5f);
 			}
 		}, 2.25f);
+	}
+
+	private void initFonts() {
+		FreeTypeFontGenerator g = new FreeTypeFontGenerator(Gdx.files.internal("fonts/soupofjustice.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+		params.size = 100;
+		params.minFilter = Texture.TextureFilter.Linear;
+		params.magFilter = Texture.TextureFilter.Linear;
+		font100 = g.generateFont(params);
+
+		params.size = 80;
+		params.minFilter = Texture.TextureFilter.Linear;
+		params.magFilter = Texture.TextureFilter.Linear;
+		font80 = g.generateFont(params);
 	}
 }

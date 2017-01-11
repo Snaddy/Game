@@ -2,6 +2,7 @@ package com.reddy.geodrop.actors;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -35,12 +36,15 @@ public class Finish implements Disposable{
     private Body body;
     private Sound victory;
     private static boolean levelFinished;
+    private Preferences prefs;
 
     public Finish(World world, TiledMap map, Rectangle bounds, Sound victory){
         this.world = world;
         this.map = map;
         this.bounds = bounds;
         levelFinished = false;
+
+        prefs = Gdx.app.getPreferences("prefs");
 
         this.victory = victory;
         victory.setVolume(6, 6);
@@ -60,6 +64,8 @@ public class Finish implements Disposable{
     }
 
     public void hit(){
+        prefs.putInteger("levelsUnlocked", level);
+        prefs.flush();
         game.setVolume();
         victory.play(0.5f);
         TiledMapTileSet tileSet = map.getTileSets().getTileSet(0);
@@ -74,7 +80,7 @@ public class Finish implements Disposable{
             public void run() {
                 game.setScreen(new PlayScreen(game, level + 1));
             }
-        }, 2f);
+        }, 1.5f);
     }
 
     public static boolean isLevelFinished(){

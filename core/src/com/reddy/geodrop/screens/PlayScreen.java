@@ -175,13 +175,13 @@ public class PlayScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (gcl.isPlayerOnGround() )
-                    player.body.applyLinearImpulse(new Vector2(0, 3.75f), player.body.getWorldCenter(), true);
+                    player.body.applyLinearImpulse(new Vector2(0, 4f), player.body.getWorldCenter(), true);
             }
         });
 
-        buySq.setPosition(Main.WIDTH - 400, Main.HEIGHT - 1200);
-        buyRect.setPosition(Main.WIDTH - 800, Main.HEIGHT - 1200);
-        jump.setPosition(800, Main.HEIGHT -1200);
+        buySq.setPosition(Main.WIDTH - 600, 50);
+        buyRect.setPosition(Main.WIDTH - 300, 50);
+        jump.setPosition(100, 50);
         stage.addActor(buyRect);
         stage.addActor(buySq);
         stage.addActor(jump);

@@ -1,7 +1,6 @@
 package com.reddy.geodrop.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -27,11 +27,9 @@ public class MenuScreen implements Screen {
     private Texture playText, creditsText, bg, playTextDown, creditsTextDown;
     private Drawable drawPlay, drawCredits, drawPlayDown, drawCreditsDown;
     private Stage stage;
-    private Preferences prefs;
     private Main game;
     private OrthographicCamera gameCam;
     private Viewport viewPort;
-    private ImageButton.ImageButtonStyle style;
 
     public MenuScreen(Main game) {
         this.game = game;
@@ -55,7 +53,6 @@ public class MenuScreen implements Screen {
         //buttons
         play = new ImageButton(drawPlay, drawPlayDown);
         credits = new ImageButton(drawCredits, drawCreditsDown);
-        System.out.println(gameCam.position);
         game.playMusic();
     }
 
@@ -65,7 +62,7 @@ public class MenuScreen implements Screen {
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayScreen(game, 1));
+                game.setScreen(new ScreenSelect(game));
                 stage.clear();
             }
         });
@@ -78,8 +75,8 @@ public class MenuScreen implements Screen {
         });
 
         //puts menu buttons half way on screen
-        play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 890);
-        credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 590);
+        play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 790);
+        credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 490);
         stage.addActor(credits);
         stage.addActor(play);
     }
