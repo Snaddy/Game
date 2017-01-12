@@ -48,7 +48,6 @@ public class ScreenSelect implements Screen{
         initLevelSelect();
 
         buttonSound = game.manager.get("audio/button.ogg", Sound.class);
-        System.out.println(stage.getHeight());
     }
 
     @Override

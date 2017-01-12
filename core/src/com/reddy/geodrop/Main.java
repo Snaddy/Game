@@ -82,6 +82,10 @@ public class Main extends Game {
 		manager.load("levels/level4.tmx", TiledMap.class);
 		manager.load("levels/level5.tmx", TiledMap.class);
 		manager.load("levels/level6.tmx", TiledMap.class);
+		manager.load("levels/level7.tmx", TiledMap.class);
+		manager.load("levels/level8.tmx", TiledMap.class);
+		manager.load("levels/level9.tmx", TiledMap.class);
+		manager.load("levels/level10.tmx", TiledMap.class);
 		manager.load("levels/level15.tmx", TiledMap.class);
 		manager.finishLoading();
 
