@@ -39,8 +39,8 @@ public class ScreenSelect implements Screen{
         drawUnlocked = new TextureRegionDrawable(new TextureRegion(unlocked));
         drawLocked = new TextureRegionDrawable(new TextureRegion(locked));
         //buttons
-        unlockedStyle = new ImageTextButton.ImageTextButtonStyle(drawUnlocked, drawUnlocked, drawUnlocked, game.font80);
-        lockedStyle = new ImageTextButton.ImageTextButtonStyle(drawLocked, drawLocked, drawLocked, game.font80);
+        unlockedStyle = new ImageTextButton.ImageTextButtonStyle(drawUnlocked, drawUnlocked, drawUnlocked, game.font100);
+        lockedStyle = new ImageTextButton.ImageTextButtonStyle(drawLocked, drawLocked, drawLocked, game.font100);
 
         //preferences
         prefs = Gdx.app.getPreferences("prefs");
@@ -48,6 +48,7 @@ public class ScreenSelect implements Screen{
         initLevelSelect();
 
         buttonSound = game.manager.get("audio/button.ogg", Sound.class);
+        System.out.println(stage.getHeight());
     }
 
     @Override
@@ -87,7 +88,7 @@ public class ScreenSelect implements Screen{
                 else
                     button[i][j] = new ImageTextButton("", lockedStyle);
 
-                button[i][j].setPosition((540) + 178 * j, (Main.HEIGHT - 356) - 178 * i);
+                button[i][j].setPosition((440) + 220 * j, (stage.getHeight() - 326) - 220 * i);
                 stage.addActor(button[i][j]);
             }
         }

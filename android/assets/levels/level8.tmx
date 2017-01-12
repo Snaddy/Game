@@ -82,7 +82,7 @@
    <ellipse/>
   </object>
  </objectgroup>
- <objectgroup name="finish">
+ <objectgroup name="Tile Layer 2">
   <object id="32" x="6272" y="0" width="128" height="896"/>
  </objectgroup>
 </map>
