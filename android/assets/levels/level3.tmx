@@ -94,6 +94,6 @@
   </object>
  </objectgroup>
  <objectgroup name="finish">
-  <object id="2" x="5888" y="0" width="128" height="896"/>
+  <object id="2" x="6016" y="0" width="128" height="896"/>
  </objectgroup>
 </map>

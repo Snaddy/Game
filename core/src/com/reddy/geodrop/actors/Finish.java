@@ -73,7 +73,7 @@ public class Finish implements Disposable{
 
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
         cell.setTile(tileSet.getTile(3));
-        layer.setCell((int)(body.getPosition().x * Main.PPM / 128), 2, cell);
+        layer.setCell((int)(body.getPosition().x * Main.PPM / 128) - 1, 2, cell);
         levelFinished = true;
         Timer.schedule(new Timer.Task() {
             @Override
