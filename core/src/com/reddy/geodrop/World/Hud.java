@@ -32,12 +32,18 @@ public class Hud implements Disposable{
         viewport = new StretchViewport(Main.WIDTH, Main.HEIGHT, hudCam);
         stage = new Stage(viewport, sb);
         score = 0;
+        if(level == 999){
+            score = 9999;
+        }
 
         initFont();
 
         scoreLabel = new Label(String.format("%04d", score), new Label.LabelStyle(font100, Color.WHITE));
         scoreLabel.setPosition(Main.WIDTH / 2 - scoreLabel.getWidth() / 2, Main.HEIGHT - 150);
         levelLabel = new Label("Level " + level, new Label.LabelStyle(font100, Color.WHITE));
+        if(level == 999){
+            levelLabel = new Label("Tutorial", new Label.LabelStyle(font100, Color.WHITE));
+        }
         levelLabel.setPosition(Main.WIDTH - levelLabel.getWidth() - 175, Main.HEIGHT - 150);
         stage.addActor(scoreLabel);
         stage.addActor(levelLabel);

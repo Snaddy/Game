@@ -58,6 +58,7 @@ public class Main extends Game {
 		manager.load("ui/next.png", Texture.class);
 		manager.load("ui/playup.png", Texture.class);
 		manager.load("ui/creditsup.png", Texture.class);
+		manager.load("ui/creditsdown.png", Texture.class);
 		manager.load("ui/nextup.png", Texture.class);
 		manager.load("ui/menuup.png", Texture.class);
 		manager.load("ui/bg.png", Texture.class);
@@ -68,6 +69,11 @@ public class Main extends Game {
 		manager.load("ui/boxDown.png", Texture.class);
 		manager.load("ui/grassBg.png", Texture.class);
 		manager.load("ui/locked.png", Texture.class);
+		manager.load("ui/credits.png", Texture.class);
+		manager.load("ui/downarrow.png", Texture.class);
+		manager.load("ui/leftarrow.png", Texture.class);
+		manager.load("ui/tutorial.png", Texture.class);
+		manager.load("ui/tutorialDown.png", Texture.class);
 		//load sounds
 		manager.load("audio/song.ogg", Music.class);
 		manager.load("audio/pickup.ogg", Sound.class);
@@ -86,7 +92,12 @@ public class Main extends Game {
 		manager.load("levels/level8.tmx", TiledMap.class);
 		manager.load("levels/level9.tmx", TiledMap.class);
 		manager.load("levels/level10.tmx", TiledMap.class);
+		manager.load("levels/level11.tmx", TiledMap.class);
+		manager.load("levels/level12.tmx", TiledMap.class);
+		manager.load("levels/level13.tmx", TiledMap.class);
+		manager.load("levels/level14.tmx", TiledMap.class);
 		manager.load("levels/level15.tmx", TiledMap.class);
+		manager.load("levels/level999.tmx", TiledMap.class);
 		manager.finishLoading();
 
 		gameSound = manager.get("audio/song.ogg", Music.class);
@@ -122,7 +133,7 @@ public class Main extends Game {
 			public void run() {
 				gameSound.setVolume(0.5f);
 			}
-		}, 2.25f);
+		}, 2.5f);
 	}
 
 	private void initFonts() {

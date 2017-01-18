@@ -66,7 +66,9 @@ public class Coin implements Disposable{
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
         cell.setTile(tileSet.getTile(0));
         layer.setCell((int)(body.getPosition().x * Main.PPM / 128), (int)(body.getPosition().y * Main.PPM / 128), cell);
-        Hud.addScore(100);
+        if(PlayScreen.level != 999) {
+            Hud.addScore(100);
+        }
     }
 
     @Override

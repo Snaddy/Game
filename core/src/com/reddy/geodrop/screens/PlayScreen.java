@@ -8,6 +8,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,10 +23,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -63,10 +67,12 @@ public class PlayScreen implements Screen {
     private ArrayList<GameRectangle> rectangles;
     private ArrayList<GameSquare> squares;
     private Stage stage;
+    private Label jumpLabel, boxLabel, rectLabel, coinLabel;
 
     //ui stage
     private ImageButton buySq, buyRect, jump;
-    private Texture sqText, rectText, jumpText;
+    private Texture sqText, rectText, jumpText, arrowLeftText, arrowDownText;
+    private Image arrowLeft, arrowDown;
     private Drawable drawSq, drawRect, drawJump;
 
     public PlayScreen(Main game, int level) {
@@ -104,6 +110,17 @@ public class PlayScreen implements Screen {
         buyRect = new ImageButton(drawRect);
         jump = new ImageButton(drawJump);
 
+        //tutorial specific
+        arrowLeftText = game.manager.get("ui/leftarrow.png");
+        //arrowLeftText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        arrowDownText = game.manager.get("ui/downarrow.png");
+        //arrowDownText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        arrowLeft = new Image(arrowLeftText);
+        arrowDown = new Image(arrowDownText);
+        jumpLabel = new Label("Press this button to jump!", new Label.LabelStyle(game.font80, Color.WHITE));
+        boxLabel = new Label("Press this button to spawn a\ntall, thin crate for 100 coins", new Label.LabelStyle(game.font80, Color.WHITE));
+        rectLabel = new Label("Press this button to spawn a\nshort, wide crate for 300 coins", new Label.LabelStyle(game.font80, Color.WHITE));
+        coinLabel = new Label("Collect coins to spawn crates", new Label.LabelStyle(game.font80, Color.WHITE));
     }
 
     private void update(float dt) {
@@ -146,6 +163,49 @@ public class PlayScreen implements Screen {
             game.setScreen(new PlayScreen(game, level));
         }
 
+        if(gameCam.position.x <= 2000 / Main.PPM && level == 999) {
+            coinLabel.setPosition((Main.WIDTH / 2) - (coinLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+            stage.addActor(coinLabel);
+        }
+        else
+            coinLabel.setText("");
+
+
+        if(gameCam.position.x > 2050 / Main.PPM && level == 999) {
+            jumpLabel.setPosition((Main.WIDTH / 2) - (jumpLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+            arrowLeft.setPosition(300, 50);
+            stage.addActor(jumpLabel);
+            stage.addActor(arrowLeft);
+            if(gameCam.position.x > 3000 / Main.PPM){
+                jumpLabel.setText("");
+                arrowLeft.remove();
+            }
+        }
+
+        if(gameCam.position.x > 3300 / Main.PPM && level == 999) {
+            boxLabel.setPosition((Main.WIDTH / 2) - (boxLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+            boxLabel.setAlignment(Align.center);
+            arrowDown.setPosition(Main.WIDTH - 600, 250);
+            stage.addActor(boxLabel);
+            stage.addActor(arrowDown);
+            if(gameCam.position.x > 5000 / Main.PPM){
+                boxLabel.setText("");
+                arrowDown.remove();
+            }
+        }
+
+        if(gameCam.position.x > 6000 / Main.PPM && level == 999) {
+            rectLabel.setPosition((Main.WIDTH / 2) - (rectLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+            rectLabel.setAlignment(Align.center);
+            arrowDown.setPosition(Main.WIDTH - 300, 250);
+            stage.addActor(rectLabel);
+            stage.addActor(arrowDown);
+            if(gameCam.position.x > 7200 / Main.PPM){
+                rectLabel.setText("");
+                arrowDown.remove();
+            }
+        }
+
     }
 
     @Override
@@ -156,7 +216,9 @@ public class PlayScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (hud.getScore() >= 100) {
                     squares.add(new GameSquare(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/square.png", Texture.class)));
-                    hud.addScore(-100);
+                    if(level != 999) {
+                        hud.addScore(-100);
+                    }
 
                 }
             }
@@ -167,7 +229,9 @@ public class PlayScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (hud.getScore() >= 300) {
                     rectangles.add(new GameRectangle(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
-                    hud.addScore(-300);
+                    if(level != 999) {
+                        hud.addScore(-300);
+                    }
                 }
             }
         });
@@ -190,7 +254,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
@@ -263,5 +327,6 @@ public class PlayScreen implements Screen {
         death.dispose();
         hud.dispose();
         player.dispose();
+        stage.dispose();
     }
 }

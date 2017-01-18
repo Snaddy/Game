@@ -25,8 +25,8 @@ public class ScreenSelect implements Screen{
     private Main game;
     private ImageTextButton[][] button = new ImageTextButton[4][5];
     private ImageTextButton.ImageTextButtonStyle lockedStyle, unlockedStyle;
-    private Texture locked, unlocked, unlockedDown;
-    private Drawable drawLocked, drawUnlocked, drawUnlockedDown;
+    private Texture locked, unlocked;
+    private Drawable drawLocked, drawUnlocked;
     private Stage stage;
     private Preferences prefs;
     private Sound buttonSound;
@@ -70,7 +70,7 @@ public class ScreenSelect implements Screen{
     }
 
     public void initLevelSelect() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 5; j++) {
                 final int id = j + 1 + (i * 5);
                 if(id <= prefs.getInteger("levelsUnlocked") + 1) {
@@ -87,7 +87,7 @@ public class ScreenSelect implements Screen{
                 else
                     button[i][j] = new ImageTextButton("", lockedStyle);
 
-                button[i][j].setPosition((440) + 220 * j, (stage.getHeight() - 326) - 220 * i);
+                button[i][j].setPosition((440) + 220 * j, (stage.getHeight() - 426) - 220 * i);
                 stage.addActor(button[i][j]);
             }
         }

@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 import com.reddy.geodrop.Main;
+import com.reddy.geodrop.screens.MenuScreen;
 import com.reddy.geodrop.screens.PlayScreen;
 
 import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.cell;
@@ -47,7 +48,7 @@ public class Finish implements Disposable{
         prefs = Gdx.app.getPreferences("prefs");
 
         this.victory = victory;
-        victory.setVolume(6, 6);
+         victory.setVolume(6, 6);
 
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
@@ -64,8 +65,10 @@ public class Finish implements Disposable{
     }
 
     public void hit(){
-        prefs.putInteger("levelsUnlocked", level);
-        prefs.flush();
+        if(level != 999) {
+            prefs.putInteger("levelsUnlocked", level);
+            prefs.flush();
+        }
         game.setVolume();
         victory.play(0.5f);
         TiledMapTileSet tileSet = map.getTileSets().getTileSet(0);
@@ -78,9 +81,13 @@ public class Finish implements Disposable{
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                game.setScreen(new PlayScreen(game, level + 1));
+                if(level == 999){
+                    game.setScreen(new MenuScreen(game));
+                } else {
+                    game.setScreen(new PlayScreen(game, level + 1));
+                }
             }
-        }, 1.5f);
+        }, 2f);
     }
 
     public static boolean isLevelFinished(){
