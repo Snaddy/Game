@@ -1,6 +1,7 @@
 package com.reddy.geodrop.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -23,14 +24,16 @@ import com.reddy.geodrop.Main;
 
 public class MenuScreen implements Screen {
 
-    private ImageButton play, credits, tutorial;
-    private Texture playText, creditsText, bg, playTextDown, creditsTextDown, tutorialText, tutorialTextDown;
-    private Drawable drawPlay, drawCredits, drawPlayDown, drawCreditsDown, drawTutorial, drawTutorialDown;
+    private ImageButton play, credits, tutorial, mute;
+    private Texture playText, creditsText, bg, playTextDown, creditsTextDown, tutorialText, tutorialTextDown, muteText, volumeText;
+    private Drawable drawPlay, drawCredits, drawPlayDown, drawCreditsDown, drawTutorial, drawTutorialDown, drawMute, drawVolume;
     private Stage stage;
     private Main game;
     private OrthographicCamera gameCam;
     private Viewport viewPort;
     private Sound buttonSound;
+    private ImageButton.ImageButtonStyle style;
+    private Preferences prefs;
 
     public MenuScreen(Main game) {
         this.game = game;
@@ -66,9 +69,37 @@ public class MenuScreen implements Screen {
         play = new ImageButton(drawPlay, drawPlayDown);
         credits = new ImageButton(drawCredits, drawCreditsDown);
         tutorial = new ImageButton(drawTutorialDown, drawTutorial);
-        game.playMusic();
+
+        prefs = Gdx.app.getPreferences("prefs");
+        if(!prefs.getBoolean("mute"))
+            prefs.putBoolean("mute", false);
+        if(prefs.getBoolean("mute") != true)
+            game.playMusic();
+        else
+            game.stopMusic();
+
 
         buttonSound = game.manager.get("audio/button.ogg", Sound.class);
+
+        //audio
+        muteText = game.manager.get("ui/mute.png");
+        muteText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        volumeText = game.manager.get("ui/volume.png");
+        volumeText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        drawMute = new TextureRegionDrawable(new TextureRegion(muteText));
+        drawVolume = new TextureRegionDrawable(new TextureRegion(volumeText));
+        style = new ImageButton.ImageButtonStyle();
+        if(prefs.getBoolean("mute") != true) {
+            style.up = drawVolume;
+            style.down = drawVolume;
+            style.checked = drawMute;
+        } else {
+            style.up = drawMute;
+            style.down = drawMute;
+            style.checked = drawVolume;
+        }
+
+        mute = new ImageButton(style);
     }
 
     @Override
@@ -77,7 +108,9 @@ public class MenuScreen implements Screen {
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                buttonSound.play(0.25f);
+                if(prefs.getBoolean("mute") != true) {
+                    buttonSound.play(0.25f);
+                }
                 game.setScreen(new ScreenSelect(game));
                 stage.clear();
             }
@@ -86,7 +119,9 @@ public class MenuScreen implements Screen {
         credits.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                buttonSound.play(0.25f);
+                if(prefs.getBoolean("mute") != true) {
+                    buttonSound.play(0.25f);
+                }
                 game.setScreen(new CreditsScreen(game));
                 stage.clear();
             }
@@ -95,9 +130,35 @@ public class MenuScreen implements Screen {
         tutorial.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                buttonSound.play(0.25f);
+                if(prefs.getBoolean("mute") != true) {
+                    buttonSound.play(0.25f);
+                }
                 game.setScreen(new PlayScreen(game, 999));
                 stage.clear();
+            }
+        });
+
+        mute.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(prefs.getBoolean("mute") != true){
+                    if (mute.isChecked()) {
+                        prefs.putBoolean("mute", true);
+                        game.stopMusic();
+                    } else {
+                        prefs.putBoolean("mute", false);
+                        game.playMusic();
+                    }
+                }if(prefs.getBoolean("mute") == true) {
+                    if (mute.isChecked()) {
+                        prefs.putBoolean("mute", true);
+                        game.playMusic();
+                    } else {
+                        prefs.putBoolean("mute", false);
+                        game.stopMusic();
+                    }
+                }
+                prefs.flush();
             }
         });
 
@@ -105,10 +166,13 @@ public class MenuScreen implements Screen {
         play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 790);
         credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 490);
         tutorial.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 190);
+        mute.setPosition(50, 50);
         stage.addActor(credits);
         stage.addActor(play);
         stage.addActor(tutorial);
+        stage.addActor(mute);
     }
+
 
     @Override
     public void render(float delta) {

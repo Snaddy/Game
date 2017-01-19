@@ -20,8 +20,6 @@ import com.badlogic.gdx.utils.Timer;
 import com.reddy.geodrop.Main;
 import com.reddy.geodrop.screens.MenuScreen;
 import com.reddy.geodrop.screens.PlayScreen;
-
-import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.cell;
 import static com.reddy.geodrop.screens.PlayScreen.game;
 import static com.reddy.geodrop.screens.PlayScreen.level;
 
@@ -66,11 +64,15 @@ public class Finish implements Disposable{
 
     public void hit(){
         if(level != 999) {
-            prefs.putInteger("levelsUnlocked", level);
-            prefs.flush();
+            if(level > prefs.getInteger("levelsUnlocked")) {
+                prefs.putInteger("levelsUnlocked", level);
+                prefs.flush();
+            }
         }
         game.setVolume();
-        victory.play(0.5f);
+        if(prefs.getBoolean("mute") != true) {
+            victory.play(0.25f);
+        }
         TiledMapTileSet tileSet = map.getTileSets().getTileSet(0);
         TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get(1);
 

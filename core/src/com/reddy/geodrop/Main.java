@@ -16,11 +16,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Timer;
-import com.reddy.geodrop.screens.PlayScreen;
 import com.reddy.geodrop.screens.SplashScreen;
-
-import static com.reddy.geodrop.screens.PlayScreen.game;
-import static com.reddy.geodrop.screens.PlayScreen.level;
 
 public class Main extends Game {
 
@@ -74,6 +70,8 @@ public class Main extends Game {
 		manager.load("ui/leftarrow.png", Texture.class);
 		manager.load("ui/tutorial.png", Texture.class);
 		manager.load("ui/tutorialDown.png", Texture.class);
+		manager.load("ui/mute.png", Texture.class);
+		manager.load("ui/volume.png", Texture.class);
 		//load sounds
 		manager.load("audio/song.ogg", Music.class);
 		manager.load("audio/pickup.ogg", Sound.class);
@@ -124,6 +122,10 @@ public class Main extends Game {
 
 	public void playMusic(){
 		gameSound.play();
+	}
+
+	public void stopMusic(){
+		gameSound.pause();
 	}
 
 	public void setVolume(){

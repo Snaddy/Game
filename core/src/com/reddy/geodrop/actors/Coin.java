@@ -1,6 +1,7 @@
 package com.reddy.geodrop.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -28,6 +29,7 @@ public class Coin implements Disposable{
     private Ellipse bounds;
     private Body body;
     private Sound pickup;
+    private Preferences prefs;
 
 
     public Coin(World world, TiledMap map, Ellipse bounds, Sound pickup){
@@ -36,6 +38,8 @@ public class Coin implements Disposable{
         this.bounds = bounds;
 
         this.pickup = pickup;
+
+        prefs = Gdx.app.getPreferences("prefs");
 
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
@@ -59,7 +63,9 @@ public class Coin implements Disposable{
     }
 
     public void hit(){
-        pickup.play(0.15f);
+        if(prefs.getBoolean("mute") != true) {
+            pickup.play(0.25f);
+        }
         TiledMapTileSet tileSet = map.getTileSets().getTileSet(0);
         TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get(1);
 

@@ -23,7 +23,7 @@ import com.reddy.geodrop.Main;
 public class ScreenSelect implements Screen{
 
     private Main game;
-    private ImageTextButton[][] button = new ImageTextButton[4][5];
+    private ImageTextButton[][] button = new ImageTextButton[3][5];
     private ImageTextButton.ImageTextButtonStyle lockedStyle, unlockedStyle;
     private Texture locked, unlocked;
     private Drawable drawLocked, drawUnlocked;
@@ -78,7 +78,9 @@ public class ScreenSelect implements Screen{
                     button[i][j].addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            buttonSound.play(0.25f);
+                            if(prefs.getBoolean("mute") != true) {
+                                buttonSound.play(0.25f);
+                            }
                             game.setScreen(new PlayScreen(game, id));
                             stage.clear();
                         }

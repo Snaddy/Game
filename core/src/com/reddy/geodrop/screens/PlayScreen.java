@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -37,14 +38,11 @@ import com.reddy.geodrop.Main;
 import com.reddy.geodrop.World.CreateWorld;
 import com.reddy.geodrop.World.GameContactListener;
 import com.reddy.geodrop.World.Hud;
-import com.reddy.geodrop.actors.Coin;
 import com.reddy.geodrop.actors.Finish;
 import com.reddy.geodrop.actors.Player;
 import com.reddy.geodrop.actors.GameRectangle;
 import com.reddy.geodrop.actors.GameSquare;
-
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 /**
  * Created by Hayden on 2016-12-20.
@@ -67,13 +65,14 @@ public class PlayScreen implements Screen {
     private ArrayList<GameRectangle> rectangles;
     private ArrayList<GameSquare> squares;
     private Stage stage;
-    private Label jumpLabel, boxLabel, rectLabel, coinLabel;
+    private Label jumpLabel, boxLabel, rectLabel, coinLabel, notEnoughCoinsLabel;
 
     //ui stage
     private ImageButton buySq, buyRect, jump;
     private Texture sqText, rectText, jumpText, arrowLeftText, arrowDownText;
     private Image arrowLeft, arrowDown;
     private Drawable drawSq, drawRect, drawJump;
+    private Preferences prefs;
 
     public PlayScreen(Main game, int level) {
         this.game = game;
@@ -93,6 +92,8 @@ public class PlayScreen implements Screen {
         player = new Player(world, game.manager.get("actors/player.png", Texture.class));
         death = game.manager.get("audio/death.ogg");
         hud = new Hud(game.batch, level);
+
+        prefs = Gdx.app.getPreferences("prefs");
 
         //arraylists
         rectangles = new ArrayList<GameRectangle>();
@@ -121,6 +122,7 @@ public class PlayScreen implements Screen {
         boxLabel = new Label("Press this button to spawn a\ntall, thin crate for 100 coins", new Label.LabelStyle(game.font80, Color.WHITE));
         rectLabel = new Label("Press this button to spawn a\nshort, wide crate for 300 coins", new Label.LabelStyle(game.font80, Color.WHITE));
         coinLabel = new Label("Collect coins to spawn crates", new Label.LabelStyle(game.font80, Color.WHITE));
+        notEnoughCoinsLabel = new Label("Not enough coins!", new Label.LabelStyle(game.font80, Color.RED));
     }
 
     private void update(float dt) {
@@ -154,12 +156,16 @@ public class PlayScreen implements Screen {
 
         //death
         if (player.getY() + (160 / Main.PPM) < gameCam.position.y - (Main.HEIGHT / 2 / Main.PPM)) {
-            death.play(0.8f);
+            if(prefs.getBoolean("mute") != true) {
+                death.play(0.25f);
+            }
             game.setScreen(new PlayScreen(game, level));
         }
         //player off camera
         if (player.getX() + (160 / Main.PPM) < gameCam.position.x - (Main.WIDTH / 2 / Main.PPM)) {
-            death.play(0.8f);
+            if(prefs.getBoolean("mute") != true) {
+                death.play(0.25f);
+            }
             game.setScreen(new PlayScreen(game, level));
         }
 
@@ -219,7 +225,16 @@ public class PlayScreen implements Screen {
                     if(level != 999) {
                         hud.addScore(-100);
                     }
-
+                    notEnoughCoinsLabel.remove();
+                } else {
+                    notEnoughCoinsLabel.setPosition((Main.WIDTH / 2) - (notEnoughCoinsLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+                    stage.addActor(notEnoughCoinsLabel);
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            notEnoughCoinsLabel.remove();
+                        }
+                    }, 2f);
                 }
             }
         });
@@ -229,10 +244,20 @@ public class PlayScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (hud.getScore() >= 300) {
                     rectangles.add(new GameRectangle(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
-                    if(level != 999) {
+                    if (level != 999) {
                         hud.addScore(-300);
                     }
-                }
+                    notEnoughCoinsLabel.remove();
+                } else {
+                        notEnoughCoinsLabel.setPosition((Main.WIDTH / 2) - (notEnoughCoinsLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+                        stage.addActor(notEnoughCoinsLabel);
+                        Timer.schedule(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                notEnoughCoinsLabel.remove();
+                            }
+                        }, 2f);
+                    }
             }
         });
 
