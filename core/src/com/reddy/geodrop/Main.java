@@ -72,6 +72,14 @@ public class Main extends Game {
 		manager.load("ui/volume.png", Texture.class);
 		manager.load("ui/blank.png", Texture.class);
 		manager.load("ui/selectscreen.png", Texture.class);
+		manager.load("ui/land.png", Texture.class);
+		manager.load("ui/landdown.png", Texture.class);
+		manager.load("ui/snow.png", Texture.class);
+		manager.load("ui/snowdown.png", Texture.class);
+		manager.load("ui/desert.png", Texture.class);
+		manager.load("ui/desertdown.png", Texture.class);
+		manager.load("ui/planet.png", Texture.class);
+		manager.load("ui/planetdown.png", Texture.class);
 		//load sounds
 		manager.load("audio/song.ogg", Music.class);
 		manager.load("audio/pickup.ogg", Sound.class);

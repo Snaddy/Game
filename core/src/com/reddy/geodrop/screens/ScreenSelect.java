@@ -25,14 +25,17 @@ public class ScreenSelect implements Screen{
     private Main game;
     private ImageTextButton[][] button = new ImageTextButton[3][5];
     private ImageTextButton.ImageTextButtonStyle lockedStyle, unlockedStyle;
-    private Texture locked, unlocked;
+    private Texture locked, unlocked, bg;
     private Drawable drawLocked, drawUnlocked;
     private Stage stage;
     private Preferences prefs;
     private Sound buttonSound;
+    private int region;
 
-    public ScreenSelect(Main game){
+    public ScreenSelect(Main game, int region, Texture bg){
         this.game = game;
+        this.region = region;
+        this.bg = bg;
         stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
         unlocked = game.manager.get("ui/box.png");
         locked = game.manager.get("ui/locked.png");
@@ -72,7 +75,7 @@ public class ScreenSelect implements Screen{
     public void initLevelSelect() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 5; j++) {
-                final int id = j + 1 + (i * 5);
+                final int id = ((j + 1 + (i * 5)) + (15 * region));
                 if(id <= prefs.getInteger("levelsUnlocked") + 1) {
                     button[i][j] = new ImageTextButton(id + "", unlockedStyle);
                     button[i][j].addListener(new ClickListener(){

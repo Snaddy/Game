@@ -98,7 +98,7 @@ public class MenuScreen implements Screen {
                 if(prefs.getBoolean("mute") == true) {
                     buttonSound.play(0.25f);
                 }
-                game.setScreen(new ScreenSelect(game));
+                game.setScreen(new RegionSelect(game));
                 stage.clear();
             }
         });
