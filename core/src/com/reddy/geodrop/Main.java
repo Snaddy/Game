@@ -6,12 +6,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -78,6 +76,8 @@ public class Main extends Game {
 		manager.load("audio/death.ogg", Sound.class);
 		manager.load("audio/victory.ogg", Sound.class);
 		manager.load("audio/button.ogg", Sound.class);
+		manager.load("audio/hit.ogg", Sound.class);
+		manager.load("audio/jump.ogg", Sound.class);
 		//load maps
 		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		manager.load("levels/level1.tmx", TiledMap.class);

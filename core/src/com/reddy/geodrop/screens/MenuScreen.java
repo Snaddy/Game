@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.reddy.geodrop.Main;
@@ -34,6 +35,7 @@ public class MenuScreen implements Screen {
     private Sound buttonSound;
     private ImageButton.ImageButtonStyle style;
     private Preferences prefs;
+    private boolean pressable;
 
     public MenuScreen(Main game) {
         this.game = game;
@@ -73,10 +75,6 @@ public class MenuScreen implements Screen {
         prefs = Gdx.app.getPreferences("prefs");
         if(!prefs.getBoolean("mute"))
             prefs.putBoolean("mute", false);
-        if(prefs.getBoolean("mute") != true)
-            game.playMusic();
-        else
-            game.stopMusic();
 
 
         buttonSound = game.manager.get("audio/button.ogg", Sound.class);
@@ -89,22 +87,26 @@ public class MenuScreen implements Screen {
         drawMute = new TextureRegionDrawable(new TextureRegion(muteText));
         drawVolume = new TextureRegionDrawable(new TextureRegion(volumeText));
         style = new ImageButton.ImageButtonStyle();
-        if(prefs.getBoolean("mute") != true) {
+        if (prefs.getBoolean("mute") != true) {
             style.up = drawVolume;
             style.down = drawVolume;
             style.checked = drawMute;
+            game.playMusic();
         } else {
             style.up = drawMute;
             style.down = drawMute;
             style.checked = drawVolume;
+            game.stopMusic();
         }
 
         mute = new ImageButton(style);
+        pressable = true;
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -141,22 +143,35 @@ public class MenuScreen implements Screen {
         mute.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(prefs.getBoolean("mute") != true){
+                if(prefs.getBoolean("mute") != true && pressable){
+                    pressable = false;
                     if (mute.isChecked()) {
                         prefs.putBoolean("mute", true);
-                        game.stopMusic();
                     } else {
-                        prefs.putBoolean("mute", false);
-                        game.playMusic();
+                        prefs.remove("mute");
                     }
-                }if(prefs.getBoolean("mute") == true) {
+                    game.stopMusic();
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            pressable = true;
+                        }
+                    }, 0.5f);
+                }
+                if(!prefs.getBoolean("mute") && pressable){
+                    pressable = false;
                     if (mute.isChecked()) {
-                        prefs.putBoolean("mute", true);
-                        game.playMusic();
+                        prefs.remove("mute");
                     } else {
-                        prefs.putBoolean("mute", false);
-                        game.stopMusic();
+                        prefs.putBoolean("mute", true);
                     }
+                    game.playMusic();
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            pressable = true;
+                        }
+                    }, 0.5f);
                 }
                 prefs.flush();
             }
@@ -172,7 +187,6 @@ public class MenuScreen implements Screen {
         stage.addActor(tutorial);
         stage.addActor(mute);
     }
-
 
     @Override
     public void render(float delta) {

@@ -1,5 +1,6 @@
 package com.reddy.geodrop.World;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.reddy.geodrop.actors.Coin;
 import com.reddy.geodrop.actors.Finish;
+import com.reddy.geodrop.screens.PlayScreen;
 
 /**
  * Created by Hayden on 2017-01-02.
@@ -14,10 +16,11 @@ import com.reddy.geodrop.actors.Finish;
 
 public class GameContactListener implements ContactListener{
 
-    private boolean playerOnGround;
+    private boolean playerOnGround, crateHit;
 
     @Override
     public void beginContact(Contact contact) {
+
 
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
@@ -28,6 +31,7 @@ public class GameContactListener implements ContactListener{
         if(a.getUserData() == "ground" && b.getUserData().equals("sensor")){
             playerOnGround = true;
         }
+
 
         //coin collision
         if(a.getUserData() == "body" || b.getUserData() == "body"){
