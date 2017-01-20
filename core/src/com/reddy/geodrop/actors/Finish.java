@@ -1,11 +1,8 @@
 package com.reddy.geodrop.actors;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
@@ -19,7 +16,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 import com.reddy.geodrop.Main;
 import com.reddy.geodrop.screens.MenuScreen;
-import com.reddy.geodrop.screens.PlayScreen;
+import com.reddy.geodrop.screens.NextLevelScreen;
 import static com.reddy.geodrop.screens.PlayScreen.game;
 import static com.reddy.geodrop.screens.PlayScreen.level;
 
@@ -70,7 +67,7 @@ public class Finish implements Disposable{
             }
         }
         game.setVolume();
-        if(prefs.getBoolean("mute") != true) {
+        if(prefs.getBoolean("mute") == true) {
             victory.play(0.25f);
         }
         TiledMapTileSet tileSet = map.getTileSets().getTileSet(0);
@@ -86,7 +83,7 @@ public class Finish implements Disposable{
                 if(level == 999){
                     game.setScreen(new MenuScreen(game));
                 } else {
-                    game.setScreen(new PlayScreen(game, level + 1));
+                    game.setScreen(new NextLevelScreen(game, level));
                 }
             }
         }, 2f);

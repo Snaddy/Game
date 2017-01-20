@@ -78,7 +78,7 @@ public class ScreenSelect implements Screen{
                     button[i][j].addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            if(prefs.getBoolean("mute") != true) {
+                            if(prefs.getBoolean("mute") == true) {
                                 buttonSound.play(0.25f);
                             }
                             game.setScreen(new PlayScreen(game, id));

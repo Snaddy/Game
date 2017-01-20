@@ -63,7 +63,7 @@ public class Coin implements Disposable{
     }
 
     public void hit(){
-        if(prefs.getBoolean("mute") != true) {
+        if(prefs.getBoolean("mute") == true) {
             pickup.play(0.25f);
         }
         TiledMapTileSet tileSet = map.getTileSets().getTileSet(0);

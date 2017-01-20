@@ -22,7 +22,7 @@ public class Main extends Game {
 	public static final int HEIGHT = 1152;
 	public static final	float PPM = 100;
 
-	public BitmapFont font100, font80;
+	public BitmapFont font100, font80, font180;
 
 	public SpriteBatch batch;
 
@@ -70,6 +70,8 @@ public class Main extends Game {
 		manager.load("ui/tutorialDown.png", Texture.class);
 		manager.load("ui/mute.png", Texture.class);
 		manager.load("ui/volume.png", Texture.class);
+		manager.load("ui/blank.png", Texture.class);
+		manager.load("ui/selectscreen.png", Texture.class);
 		//load sounds
 		manager.load("audio/song.ogg", Music.class);
 		manager.load("audio/pickup.ogg", Sound.class);
@@ -151,5 +153,10 @@ public class Main extends Game {
 		params.minFilter = Texture.TextureFilter.Linear;
 		params.magFilter = Texture.TextureFilter.Linear;
 		font80 = g.generateFont(params);
+
+		params.size = 180;
+		params.minFilter = Texture.TextureFilter.Linear;
+		params.magFilter = Texture.TextureFilter.Linear;
+		font180 = g.generateFont(params);
 	}
 }

@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.reddy.geodrop.Main;
@@ -26,8 +25,8 @@ import com.reddy.geodrop.Main;
 public class MenuScreen implements Screen {
 
     private ImageButton play, credits, tutorial, mute;
-    private Texture playText, creditsText, bg, playTextDown, creditsTextDown, tutorialText, tutorialTextDown, muteText, volumeText;
-    private Drawable drawPlay, drawCredits, drawPlayDown, drawCreditsDown, drawTutorial, drawTutorialDown, drawMute, drawVolume;
+    private Texture playText, creditsText, bg, playTextDown, creditsTextDown, tutorialText, tutorialTextDown, muteText, volumeText, blank;
+    private Drawable drawPlay, drawCredits, drawPlayDown, drawCreditsDown, drawTutorial, drawTutorialDown, drawMute, drawVolume, drawBlank;
     private Stage stage;
     private Main game;
     private OrthographicCamera gameCam;
@@ -35,7 +34,6 @@ public class MenuScreen implements Screen {
     private Sound buttonSound;
     private ImageButton.ImageButtonStyle style;
     private Preferences prefs;
-    private boolean pressable;
 
     public MenuScreen(Main game) {
         this.game = game;
@@ -73,8 +71,6 @@ public class MenuScreen implements Screen {
         tutorial = new ImageButton(drawTutorialDown, drawTutorial);
 
         prefs = Gdx.app.getPreferences("prefs");
-        if(!prefs.getBoolean("mute"))
-            prefs.putBoolean("mute", false);
 
 
         buttonSound = game.manager.get("audio/button.ogg", Sound.class);
@@ -86,21 +82,10 @@ public class MenuScreen implements Screen {
         volumeText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         drawMute = new TextureRegionDrawable(new TextureRegion(muteText));
         drawVolume = new TextureRegionDrawable(new TextureRegion(volumeText));
-        style = new ImageButton.ImageButtonStyle();
-        if (prefs.getBoolean("mute") != true) {
-            style.up = drawVolume;
-            style.down = drawVolume;
-            style.checked = drawMute;
-            game.playMusic();
-        } else {
-            style.up = drawMute;
-            style.down = drawMute;
-            style.checked = drawVolume;
-            game.stopMusic();
-        }
+        blank = game.manager.get("ui/blank.png");
+        drawBlank = new TextureRegionDrawable(new TextureRegion(blank));
 
-        mute = new ImageButton(style);
-        pressable = true;
+        mute = new ImageButton(drawBlank, drawBlank);
     }
 
     @Override
@@ -110,7 +95,7 @@ public class MenuScreen implements Screen {
         play.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(prefs.getBoolean("mute") != true) {
+                if(prefs.getBoolean("mute") == true) {
                     buttonSound.play(0.25f);
                 }
                 game.setScreen(new ScreenSelect(game));
@@ -121,7 +106,7 @@ public class MenuScreen implements Screen {
         credits.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(prefs.getBoolean("mute") != true) {
+                if(prefs.getBoolean("mute") == true) {
                     buttonSound.play(0.25f);
                 }
                 game.setScreen(new CreditsScreen(game));
@@ -132,7 +117,7 @@ public class MenuScreen implements Screen {
         tutorial.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(prefs.getBoolean("mute") != true) {
+                if(prefs.getBoolean("mute") == true) {
                     buttonSound.play(0.25f);
                 }
                 game.setScreen(new PlayScreen(game, 999));
@@ -142,50 +127,37 @@ public class MenuScreen implements Screen {
 
         mute.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(prefs.getBoolean("mute") != true && pressable){
-                    pressable = false;
-                    if (mute.isChecked()) {
-                        prefs.putBoolean("mute", true);
-                    } else {
-                        prefs.remove("mute");
-                    }
-                    game.stopMusic();
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            pressable = true;
-                        }
-                    }, 0.5f);
-                }
-                if(!prefs.getBoolean("mute") && pressable){
-                    pressable = false;
-                    if (mute.isChecked()) {
-                        prefs.remove("mute");
-                    } else {
-                        prefs.putBoolean("mute", true);
-                    }
-                    game.playMusic();
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            pressable = true;
-                        }
-                    }, 0.5f);
-                }
+            public void clicked (InputEvent event,float x, float y) {
+                if (prefs.getBoolean("mute") == false)
+                    prefs.putBoolean("mute", true);
+                else
+                    prefs.putBoolean("mute", false);
+
                 prefs.flush();
             }
         });
 
         //puts menu buttons half way on screen
-        play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 790);
-        credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 490);
-        tutorial.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 190);
+        play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 900);
+        credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2),725);
+        tutorial.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 550);
         mute.setPosition(50, 50);
         stage.addActor(credits);
         stage.addActor(play);
         stage.addActor(tutorial);
         stage.addActor(mute);
+    }
+
+    public void update(){
+
+        if(prefs.getBoolean("mute") == true){
+            System.out.println("mute false");
+            game.playMusic();
+        } else {
+            System.out.println("mute true");
+            game.stopMusic();
+        }
+
     }
 
     @Override
@@ -196,8 +168,14 @@ public class MenuScreen implements Screen {
 
         game.batch.setProjectionMatrix(gameCam.combined);
 
+        update();
+
         game.batch.begin();
         game.batch.draw(bg, 0, 0);
+        if(prefs.getBoolean("mute") == false){
+            game.batch.draw(muteText, 50, 50);
+        } else
+            game.batch.draw(volumeText, 50, 50);
         game.batch.end();
 
         stage.draw();

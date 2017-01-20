@@ -149,14 +149,14 @@ public class PlayScreen implements Screen {
 
         //death
         if (player.getY() + (160 / Main.PPM) < gameCam.position.y - (Main.HEIGHT / 2 / Main.PPM)) {
-            if(prefs.getBoolean("mute") != true) {
+            if(prefs.getBoolean("mute") == true) {
                 death.play(0.25f);
             }
             game.setScreen(new PlayScreen(game, level));
         }
         //player off camera
         if (player.getX() + (160 / Main.PPM) < gameCam.position.x - (Main.WIDTH / 2 / Main.PPM)) {
-            if(prefs.getBoolean("mute") != true) {
+            if(prefs.getBoolean("mute") == true) {
                 death.play(0.25f);
             }
             game.setScreen(new PlayScreen(game, level));
@@ -260,16 +260,16 @@ public class PlayScreen implements Screen {
                 if (gcl.isPlayerOnGround() ) {
                     player.body.applyLinearImpulse(new Vector2(0, 4f), player.body.getWorldCenter(), true);
 
-                    if(prefs.getBoolean("mute") != true) {
-                        jumpSound.play(0.125f);
+                    if(prefs.getBoolean("mute") == true) {
+                        jumpSound.play(0.2f);
                     }
                 }
             }
         });
 
-        buySq.setPosition(Main.WIDTH - 600, 50);
-        buyRect.setPosition(Main.WIDTH - 300, 50);
-        jump.setPosition(100, 50);
+        buySq.setPosition(Main.WIDTH - 600, 30);
+        buyRect.setPosition(Main.WIDTH - 300, 30);
+        jump.setPosition(100, 30);
         stage.addActor(buyRect);
         stage.addActor(buySq);
         stage.addActor(jump);
