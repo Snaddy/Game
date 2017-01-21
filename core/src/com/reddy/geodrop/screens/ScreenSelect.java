@@ -47,6 +47,7 @@ public class ScreenSelect implements Screen{
 
         //preferences
         prefs = Gdx.app.getPreferences("prefs");
+        System.out.println(prefs.getInteger("levelsUnlocked"));
 
         initLevelSelect();
 
@@ -66,7 +67,7 @@ public class ScreenSelect implements Screen{
         Gdx.input.setInputProcessor(stage);
 
         game.batch.begin();
-        game.batch.draw(game.manager.get("ui/grassBg.png", Texture.class), 0, 0);
+        game.batch.draw(bg, 0, 0);
         game.batch.end();
 
         stage.draw();
@@ -92,7 +93,7 @@ public class ScreenSelect implements Screen{
                 else
                     button[i][j] = new ImageTextButton("", lockedStyle);
 
-                button[i][j].setPosition((440) + 220 * j, (stage.getHeight() - 426) - 220 * i);
+                button[i][j].setPosition((385) + 250 * j, (stage.getHeight() - 401) - 250 * i);
                 stage.addActor(button[i][j]);
             }
         }

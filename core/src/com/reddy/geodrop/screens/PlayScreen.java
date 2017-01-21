@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -65,16 +66,21 @@ public class PlayScreen implements Screen {
     private Image arrowLeft, arrowDown;
     private Drawable drawSq, drawRect, drawJump;
     private Preferences prefs;
+    private TmxMapLoader loader;
 
     public PlayScreen(Main game, int level) {
         this.game = game;
         this.level = level;
+        loader = new TmxMapLoader();
+        TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
+        params.textureMinFilter = Texture.TextureFilter.Linear;
+        params.textureMagFilter = Texture.TextureFilter.Nearest;
         gameCam = new OrthographicCamera();
         viewPort = new StretchViewport(Main.WIDTH / Main.PPM, Main.HEIGHT / Main.PPM, gameCam);
         gameCam.setToOrtho(false, viewPort.getWorldWidth(), viewPort.getWorldHeight());
         gameCam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
         stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
-        map = game.manager.get("levels/level" + level + ".tmx");
+        map = loader.load("levels/level" + level + ".tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PPM);
         world = new World(new Vector2(0, -10), true);
         gcl = new GameContactListener();
@@ -284,7 +290,7 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        debug.render(world, gameCam.combined);
+        //debug.render(world, gameCam.combined);
 
         game.batch.setProjectionMatrix(gameCam.combined);
 

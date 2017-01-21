@@ -22,7 +22,7 @@ public class Main extends Game {
 	public static final int HEIGHT = 1152;
 	public static final	float PPM = 100;
 
-	public BitmapFont font100, font80, font180;
+	public BitmapFont font100, font80, font180, fontBerlin;
 
 	public SpriteBatch batch;
 
@@ -31,6 +31,8 @@ public class Main extends Game {
 	public OrthographicCamera camera;
 
 	public AssetManager manager;
+
+	private TmxMapLoader loader;
 
 
 	@Override
@@ -80,6 +82,11 @@ public class Main extends Game {
 		manager.load("ui/desertdown.png", Texture.class);
 		manager.load("ui/planet.png", Texture.class);
 		manager.load("ui/planetdown.png", Texture.class);
+		manager.load("ui/desertBg.png", Texture.class);
+		manager.load("ui/planetBg.png", Texture.class);
+		manager.load("ui/snowlocked.png", Texture.class);
+		manager.load("ui/desertlocked.png", Texture.class);
+		manager.load("ui/planetlocked.png", Texture.class);
 		//load sounds
 		manager.load("audio/song.ogg", Music.class);
 		manager.load("audio/pickup.ogg", Sound.class);
@@ -89,8 +96,7 @@ public class Main extends Game {
 		manager.load("audio/hit.ogg", Sound.class);
 		manager.load("audio/jump.ogg", Sound.class);
 		//load maps
-		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		manager.load("levels/level1.tmx", TiledMap.class);
+		/*manager.load("levels/level1.tmx", TiledMap.class);
 		manager.load("levels/level2.tmx", TiledMap.class);
 		manager.load("levels/level3.tmx", TiledMap.class);
 		manager.load("levels/level4.tmx", TiledMap.class);
@@ -106,7 +112,9 @@ public class Main extends Game {
 		manager.load("levels/level14.tmx", TiledMap.class);
 		manager.load("levels/level15.tmx", TiledMap.class);
 		manager.load("levels/level999.tmx", TiledMap.class);
+		*/
 		manager.finishLoading();
+
 
 		gameSound = manager.get("audio/song.ogg", Music.class);
 		gameSound.setLooping(true);
@@ -166,5 +174,14 @@ public class Main extends Game {
 		params.minFilter = Texture.TextureFilter.Linear;
 		params.magFilter = Texture.TextureFilter.Linear;
 		font180 = g.generateFont(params);
+
+		FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("fonts/berlin.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+		parameters.size = 180;
+		parameters.minFilter = Texture.TextureFilter.Linear;
+		parameters.magFilter = Texture.TextureFilter.Linear;
+		fontBerlin = gen.generateFont(params);
+
 	}
 }
