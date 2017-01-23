@@ -41,7 +41,7 @@ public class GameSquare extends Sprite implements Disposable{
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(70 / Main.PPM, 35 / Main.PPM);
+        shape.setAsBox(68 / Main.PPM, 35 / Main.PPM);
         fdef.shape = shape;
         fdef.friction = 1f;
         fdef.restitution = 0f;

@@ -96,7 +96,8 @@ public class Main extends Game {
 		manager.load("audio/hit.ogg", Sound.class);
 		manager.load("audio/jump.ogg", Sound.class);
 		//load maps
-		/*manager.load("levels/level1.tmx", TiledMap.class);
+		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+		manager.load("levels/level1.tmx", TiledMap.class);
 		manager.load("levels/level2.tmx", TiledMap.class);
 		manager.load("levels/level3.tmx", TiledMap.class);
 		manager.load("levels/level4.tmx", TiledMap.class);
@@ -112,7 +113,7 @@ public class Main extends Game {
 		manager.load("levels/level14.tmx", TiledMap.class);
 		manager.load("levels/level15.tmx", TiledMap.class);
 		manager.load("levels/level999.tmx", TiledMap.class);
-		*/
+
 		manager.finishLoading();
 
 

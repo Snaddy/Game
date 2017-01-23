@@ -66,21 +66,16 @@ public class PlayScreen implements Screen {
     private Image arrowLeft, arrowDown;
     private Drawable drawSq, drawRect, drawJump;
     private Preferences prefs;
-    private TmxMapLoader loader;
 
     public PlayScreen(Main game, int level) {
         this.game = game;
         this.level = level;
-        loader = new TmxMapLoader();
-        TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
-        params.textureMinFilter = Texture.TextureFilter.Linear;
-        params.textureMagFilter = Texture.TextureFilter.Nearest;
         gameCam = new OrthographicCamera();
         viewPort = new StretchViewport(Main.WIDTH / Main.PPM, Main.HEIGHT / Main.PPM, gameCam);
         gameCam.setToOrtho(false, viewPort.getWorldWidth(), viewPort.getWorldHeight());
         gameCam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
         stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
-        map = loader.load("levels/level" + level + ".tmx");
+        map = game.manager.get("levels/level" + level + ".tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PPM);
         world = new World(new Vector2(0, -10), true);
         gcl = new GameContactListener();
@@ -298,9 +293,9 @@ public class PlayScreen implements Screen {
         game.batch.draw(game.manager.get("actors/player.png", Texture.class), player.getX() - 80 / Main.PPM, player.getY() - 80 / Main.PPM, 160 / Main.PPM, 160 / Main.PPM);
         for(GameRectangle rect : rectangles){
             game.batch.draw(game.manager.get("actors/rectangle.png", Texture.class),
-                    rect.getX(), rect.getY(),
+                    rect.getX(), rect.getY() - 2 / Main.PPM,
                     rect.getOriginX(), rect.getOriginY(),
-                    602 / Main.PPM, 42 / Main.PPM,
+                    600 / Main.PPM, 40 / Main.PPM,
                     1f, 1f,
                     rect.getRotation(), 0, 0,
                     300, 20, false, false);
@@ -308,9 +303,9 @@ public class PlayScreen implements Screen {
 
         for(GameSquare sq : squares){
             game.batch.draw(game.manager.get("actors/square.png", Texture.class),
-                    sq.getX(), sq.getY(),
+                    sq.getX(), sq.getY() - 2 / Main.PPM,
                     sq.getOriginX(), sq.getOriginY(),
-                    142 / Main.PPM, 72 / Main.PPM,
+                    140 / Main.PPM, 70 / Main.PPM,
                     1f, 1f,
                     sq.getRotation(), 0, 0,
                     70, 35, false, false);

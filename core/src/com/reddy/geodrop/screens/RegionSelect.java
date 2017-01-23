@@ -32,7 +32,7 @@ public class RegionSelect implements Screen {
     private ImageButton land, snow, desert, planet;
     private Sound buttonSound;
     private Preferences prefs;
-    private int landLevels, snowLevels, desertLevels, planetLevels, levels;
+    private int landLevels, snowLevels, desertLevels, planetLevels;
 
     public RegionSelect(Main game){
         this.game = game;
@@ -58,7 +58,6 @@ public class RegionSelect implements Screen {
         desert = new ImageButton(drawDesert, drawDesertDown);
         planet = new ImageButton(drawPlanet, drawPlanetDown);
         prefs = Gdx.app.getPreferences("prefs");
-        int levels = prefs.getInteger("levelsUnlocked") + 1;
         buttonSound = game.manager.get("audio/button.ogg");
 
         //locked textures and regions
@@ -119,7 +118,7 @@ public class RegionSelect implements Screen {
         });
         landLabel.setPosition(240 - landLabel.getWidth() / 2, 800);
 
-        if (prefs.getInteger("levelsUnlocked") > 15) {
+        if (prefs.getInteger("levelsUnlocked") >= 15) {
             snow = new ImageButton(drawSnow, drawSnowDown);
             snow.addListener(new ClickListener() {
                 @Override
@@ -135,7 +134,7 @@ public class RegionSelect implements Screen {
             snow = new ImageButton(snowLocked, snowLocked);
 
 
-        if (prefs.getInteger("levelsUnlocked") > 30) {
+        if (prefs.getInteger("levelsUnlocked") >= 30) {
             desert = new ImageButton(drawDesert, drawDesertDown);
             desert.addListener(new ClickListener() {
                 @Override
@@ -150,7 +149,7 @@ public class RegionSelect implements Screen {
         } else
             desert = new ImageButton(desertLocked, desertLocked);
 
-        if (prefs.getInteger("levelsUnlocked") > 45) {
+        if (prefs.getInteger("levelsUnlocked") >= 45) {
             planet = new ImageButton(drawPlanet, drawPlanetDown);
             planet.addListener(new ClickListener() {
                 @Override
@@ -176,15 +175,15 @@ public class RegionSelect implements Screen {
         stage.addActor(planet);
         stage.addActor(landLabel);
         landLabel.setPosition(240 - landLabel.getWidth() / 2, 800);
-        if (prefs.getInteger("levelsUnlocked") > 15){
+        if (prefs.getInteger("levelsUnlocked") >= 15){
             snowLabel.setPosition(720 - snowLabel.getWidth() / 2, 800);
             stage.addActor(snowLabel);
         }
-        if(prefs.getInteger("levelsUnlocked") > 30) {
+        if(prefs.getInteger("levelsUnlocked") >= 30) {
             desertLabel.setPosition(1200 - desertLabel.getWidth() / 2, 800);
             stage.addActor(desertLabel);
         }
-        if(prefs.getInteger("levelsUnlocked") > 45){
+        if(prefs.getInteger("levelsUnlocked") >= 45){
             planetLabel.setPosition(1680 - planetLabel.getWidth() / 2, 800);
             stage.addActor(planetLabel);
         }
