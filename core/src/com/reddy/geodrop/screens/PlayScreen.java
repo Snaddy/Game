@@ -82,7 +82,14 @@ public class PlayScreen implements Screen {
         world.setContactListener(gcl);
         debug = new Box2DDebugRenderer();
         new CreateWorld(world, map, game);
-        player = new Player(world, game.manager.get("actors/player.png", Texture.class));
+        if(level <= 15)
+            player = new Player(world, game.manager.get("actors/player.png", Texture.class));
+        if(level > 15)
+            player = new Player(world, game.manager.get("actors/snowplayer.png", Texture.class));
+        if(level > 30)
+            player = new Player(world, game.manager.get("actors/desertplayer.png", Texture.class));
+        if(level > 45)
+            player = new Player(world, game.manager.get("actors/planetplayer.png", Texture.class));
         death = game.manager.get("audio/death.ogg");
         jumpSound = game.manager.get("audio/jump.ogg");
         hud = new Hud(game.batch, level);

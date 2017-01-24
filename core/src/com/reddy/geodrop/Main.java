@@ -44,6 +44,9 @@ public class Main extends Game {
 
 		//load textures
 		manager.load("actors/player.png", Texture.class);
+		manager.load("actors/snowplayer.png", Texture.class);
+		manager.load("actors/desertplayer.png", Texture.class);
+		manager.load("actors/planetplayer.png", Texture.class);
 		manager.load("actors/square.png", Texture.class);
 		manager.load("actors/rectangle.png", Texture.class);
 		//ui
@@ -112,6 +115,11 @@ public class Main extends Game {
 		manager.load("levels/level13.tmx", TiledMap.class);
 		manager.load("levels/level14.tmx", TiledMap.class);
 		manager.load("levels/level15.tmx", TiledMap.class);
+		manager.load("levels/level16.tmx", TiledMap.class);
+		manager.load("levels/level17.tmx", TiledMap.class);
+		manager.load("levels/level18.tmx", TiledMap.class);
+		manager.load("levels/level19.tmx", TiledMap.class);
+		manager.load("levels/level20.tmx", TiledMap.class);
 		manager.load("levels/level999.tmx", TiledMap.class);
 
 		manager.finishLoading();
