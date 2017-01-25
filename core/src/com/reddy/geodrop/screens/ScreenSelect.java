@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -25,12 +26,13 @@ public class ScreenSelect implements Screen{
     private Main game;
     private ImageTextButton[][] button = new ImageTextButton[3][5];
     private ImageTextButton.ImageTextButtonStyle lockedStyle, unlockedStyle;
-    private Texture locked, unlocked, bg;
-    private Drawable drawLocked, drawUnlocked;
+    private Texture locked, unlocked, bg, backText, backDownText;
+    private Drawable drawLocked, drawUnlocked, drawBack, drawBackDown;
     private Stage stage;
     private Preferences prefs;
     private Sound buttonSound;
     private int region;
+    private ImageButton back;
 
     public ScreenSelect(Main game, int region, Texture bg){
         this.game = game;
@@ -39,24 +41,46 @@ public class ScreenSelect implements Screen{
         stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
         unlocked = game.manager.get("ui/box.png");
         locked = game.manager.get("ui/locked.png");
+        backText = game.manager.get("ui/backUp.png");
+        backText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        backDownText = game.manager.get("ui/back.png");
+        backDownText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         drawUnlocked = new TextureRegionDrawable(new TextureRegion(unlocked));
         drawLocked = new TextureRegionDrawable(new TextureRegion(locked));
+        drawBack = new TextureRegionDrawable(new TextureRegion(backText));
+        drawBackDown = new TextureRegionDrawable(new TextureRegion(backDownText));
         //buttons
         unlockedStyle = new ImageTextButton.ImageTextButtonStyle(drawUnlocked, drawUnlocked, drawUnlocked, game.font100);
         lockedStyle = new ImageTextButton.ImageTextButtonStyle(drawLocked, drawLocked, drawLocked, game.font100);
 
+        back = new ImageButton(drawBack, drawBackDown);
+
         //preferences
         prefs = Gdx.app.getPreferences("prefs");
         System.out.println(prefs.getInteger("levelsUnlocked"));
-
-        initLevelSelect();
 
         buttonSound = game.manager.get("audio/button.ogg", Sound.class);
     }
 
     @Override
     public void show() {
+        back.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (prefs.getBoolean("mute") == true) {
+                    buttonSound.play(0.25f);
+                }
+                game.setScreen(new RegionSelect(game));
 
+                stage.clear();
+            }
+        });
+
+        initLevelSelect();
+
+        back.setPosition(Main.WIDTH / 2 - back.getWidth() / 2, 90);
+
+        stage.addActor(back);
     }
 
     @Override
@@ -93,7 +117,7 @@ public class ScreenSelect implements Screen{
                 else
                     button[i][j] = new ImageTextButton("", lockedStyle);
 
-                button[i][j].setPosition((385) + 250 * j, (stage.getHeight() - 401) - 250 * i);
+                button[i][j].setPosition((385) + 250 * j, (stage.getHeight() - 301) - 250 * i);
                 stage.addActor(button[i][j]);
             }
         }
@@ -123,5 +147,10 @@ public class ScreenSelect implements Screen{
     public void dispose() {
         stage.dispose();
         game.dispose();
+        bg.dispose();
+        backText.dispose();
+        backDownText.dispose();
+        unlocked.dispose();
+        locked.dispose();
     }
 }

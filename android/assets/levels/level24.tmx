@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="70" height="9" tilewidth="128" tileheight="128" nextobjectid="37">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="70" height="9" tilewidth="128" tileheight="128" nextobjectid="30">
  <tileset firstgid="1" name="spritesheet_items" tilewidth="128" tileheight="128" tilecount="32" columns="8">
   <image source="../tilesets/spritesheet_items.png" width="1024" height="512"/>
  </tileset>
- <tileset firstgid="33" name="spritesheet_tiles" tilewidth="128" tileheight="128" spacing="2" margin="1" tilecount="128" columns="8">
-  <image source="../tilesets/spritesheet_tiles.png" width="1040" height="2080"/>
+ <tileset firstgid="33" name="spritesheet_ground" tilewidth="128" tileheight="128" spacing="2" margin="1" tilecount="128" columns="8">
+  <image source="../tilesets/spritesheet_ground.png" width="1040" height="2080"/>
  </tileset>
  <tileset firstgid="161" name="blue_land" tilewidth="128" tileheight="128" tilecount="64" columns="8">
   <image source="../tilesets/blue_land.png" width="1024" height="1024"/>
  </tileset>
- <tileset firstgid="225" name="spritesheet_ground" tilewidth="128" tileheight="128" spacing="2" margin="1" tilecount="128" columns="8">
-  <image source="../tilesets/spritesheet_ground.png" width="1040" height="2080"/>
+ <tileset firstgid="225" name="spritesheet_tiles" tilewidth="128" tileheight="128" spacing="2" margin="1" tilecount="128" columns="8">
+  <image source="../tilesets/spritesheet_tiles.png" width="1040" height="2080"/>
  </tileset>
  <tileset firstgid="353" name="players" tilewidth="128" tileheight="128" tilecount="4" columns="4">
   <image source="../tilesets/players.png" width="512" height="128"/>
@@ -31,92 +31,71 @@
  <layer name="Tile Layer 2" width="70" height="9">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,356,353,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,30,30,0,0,0,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,355,65,65,0,0,0,0,0,0,0,0,0,
-0,30,30,30,30,30,30,30,30,30,0,0,0,0,0,0,30,30,0,0,0,0,284,284,284,0,0,0,284,284,284,0,0,0,30,30,30,31,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,11,0,0,65,65,65,65,0,0,0,0,0,0,0,0,
-284,284,284,284,284,284,284,284,284,284,284,0,0,0,0,284,284,284,284,0,0,0,277,277,277,0,0,0,277,277,277,0,0,0,284,284,284,0,0,0,0,284,0,0,0,284,284,284,284,0,0,0,0,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,284,
-277,277,277,277,277,277,277,277,277,277,277,0,0,0,0,277,277,277,277,0,0,0,277,277,277,0,0,0,277,277,277,0,0,0,277,277,277,0,0,0,0,277,0,0,0,277,277,277,277,0,0,0,0,277,277,277,277,277,277,277,277,277,277,277,277,277,277,277,277,277
+0,0,0,0,0,0,0,0,0,0,0,0,235,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,32,0,92,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,356,353,0,0,0,0,0,0,0,0,0,
+0,31,31,112,32,30,30,30,30,0,92,92,85,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,355,257,257,0,0,0,0,0,0,0,0,0,
+92,92,92,92,92,92,92,92,92,92,85,85,85,0,0,0,30,30,30,0,0,0,30,30,30,0,0,0,0,0,0,0,0,30,0,30,0,0,0,0,0,0,0,0,0,0,0,92,92,0,0,0,0,0,0,11,0,0,257,257,257,257,0,0,0,0,0,0,0,0,
+85,85,85,85,85,85,85,85,85,85,85,85,85,0,0,0,92,92,92,0,0,0,92,92,92,0,0,0,0,92,92,92,345,92,345,92,345,92,92,0,0,0,88,92,92,92,92,85,85,0,92,0,92,0,0,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,
+85,85,85,85,85,85,85,85,85,85,85,85,85,0,0,0,85,85,85,0,0,0,85,85,85,0,0,0,0,85,85,85,234,85,234,85,234,85,85,0,0,0,0,85,85,85,85,85,85,0,85,0,85,0,0,85,85,85,85,85,85,85,85,85,85,85,85,85,85,85
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="6" x="6784" y="896" width="2176" height="256"/>
-  <object id="7" x="5760" y="896" width="512" height="256"/>
-  <object id="8" x="5248" y="896" width="128" height="256"/>
-  <object id="9" x="4352" y="896" width="384" height="256"/>
-  <object id="11" x="3584" y="768" width="384" height="384"/>
-  <object id="12" x="2816" y="768" width="384" height="384"/>
-  <object id="13" x="1920" y="896" width="512" height="256"/>
-  <object id="14" x="0" y="896" width="1408" height="256"/>
+  <object id="3" x="7040" y="896" width="1920" height="256"/>
+  <object id="4" x="6656" y="896" width="128" height="256"/>
+  <object id="5" x="6400" y="896" width="128" height="256"/>
+  <object id="6" x="6016" y="768" width="256" height="384"/>
+  <object id="7" x="5504" y="896" width="512" height="256"/>
+  <object id="8" x="4736" y="896" width="256" height="256"/>
+  <object id="9" x="4480" y="896" width="128" height="256"/>
+  <object id="10" x="4224" y="896" width="128" height="256"/>
+  <object id="11" x="3712" y="896" width="384" height="256"/>
+  <object id="12" x="2816" y="896" width="384" height="256"/>
+  <object id="13" x="2048" y="896" width="384" height="256"/>
+  <object id="14" x="1536" y="512" width="128" height="640"/>
+  <object id="15" x="1280" y="640" width="256" height="512"/>
+  <object id="16" x="0" y="768" width="1280" height="384"/>
  </objectgroup>
  <objectgroup name="Object Layer 2">
-  <object id="15" x="5280.67" y="799.333" width="64" height="64">
+  <object id="17" x="1056.5" y="671.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="17" x="4640.67" y="800.667" width="64" height="64">
+  <object id="19" x="928.5" y="671.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="18" x="4511.33" y="800.667" width="64" height="64">
+  <object id="20" x="800.5" y="671.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="19" x="4382.67" y="800" width="64" height="64">
+  <object id="21" x="672.5" y="671.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="20" x="3871.33" y="672" width="64" height="64">
+  <object id="22" x="2080.5" y="799.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="21" x="3744" y="672" width="64" height="64">
+  <object id="23" x="2208.5" y="799.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="22" x="3617.33" y="674" width="64" height="64">
+  <object id="24" x="2336.5" y="799.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="23" x="3103.33" y="672" width="64" height="64">
+  <object id="25" x="2848.5" y="799.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="24" x="2976.67" y="672.667" width="64" height="64">
+  <object id="26" x="2976.5" y="799.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="25" x="2846" y="672.667" width="64" height="64">
+  <object id="27" x="3104.5" y="799.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="26" x="2208.67" y="799.333" width="64" height="64">
+  <object id="28" x="4256.5" y="799.5" width="64" height="64">
    <ellipse/>
   </object>
-  <object id="27" x="2080" y="798.667" width="64" height="64">
-   <ellipse/>
-  </object>
-  <object id="28" x="1185" y="800" width="64" height="64">
-   <ellipse/>
-  </object>
-  <object id="29" x="1056" y="803" width="64" height="64">
-   <ellipse/>
-  </object>
-  <object id="30" x="925" y="799" width="64" height="64">
-   <ellipse/>
-  </object>
-  <object id="31" x="797" y="800" width="64" height="64">
-   <ellipse/>
-  </object>
-  <object id="32" x="669" y="801" width="64" height="64">
-   <ellipse/>
-  </object>
-  <object id="33" x="543" y="800" width="64" height="64">
-   <ellipse/>
-  </object>
-  <object id="34" x="416" y="801" width="64" height="64">
-   <ellipse/>
-  </object>
-  <object id="35" x="287" y="801" width="64" height="64">
-   <ellipse/>
-  </object>
-  <object id="36" x="158" y="802" width="64" height="64">
+  <object id="29" x="4512.5" y="799.5" width="64" height="64">
    <ellipse/>
   </object>
  </objectgroup>
  <objectgroup name="finish">
-  <object id="1" x="7168" y="0" width="128" height="896"/>
+  <object id="2" x="7168" y="0" width="128" height="896"/>
  </objectgroup>
 </map>

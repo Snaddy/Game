@@ -26,10 +26,12 @@ public class RegionSelect implements Screen {
 
     private Main game;
     private Stage stage;
-    private Texture landText, landDownText, snowText, snowDownText, desertText, desertDownText, planetText, planetDownText, snowLockedText, desertLockedText, planetLockedText;
-    private Drawable drawLand, drawLandDown, drawSnow, drawSnowDown, drawDesert, drawDesertDown, drawPlanet, drawPlanetDown, snowLocked, desertLocked, planetLocked;
+    private Texture landText, landDownText, snowText, snowDownText, desertText, desertDownText,
+            planetText, planetDownText, snowLockedText, desertLockedText, planetLockedText, backText, backDownText;
+    private Drawable drawLand, drawLandDown, drawSnow, drawSnowDown, drawDesert, drawDesertDown,
+            drawPlanet, drawPlanetDown, snowLocked, desertLocked, planetLocked, drawBack, drawBackDown;
     private Label landLabel, snowLabel, desertLabel, planetLabel;
-    private ImageButton land, snow, desert, planet;
+    private ImageButton land, snow, desert, planet, back;
     private Sound buttonSound;
     private Preferences prefs;
     private int landLevels, snowLevels, desertLevels, planetLevels;
@@ -57,6 +59,8 @@ public class RegionSelect implements Screen {
         snow = new ImageButton(drawSnow, drawSnowDown);
         desert = new ImageButton(drawDesert, drawDesertDown);
         planet = new ImageButton(drawPlanet, drawPlanetDown);
+
+        //other prefs and audio
         prefs = Gdx.app.getPreferences("prefs");
         buttonSound = game.manager.get("audio/button.ogg");
 
@@ -223,6 +227,17 @@ public class RegionSelect implements Screen {
 
     @Override
     public void dispose() {
-
+        buttonSound.dispose();
+        landText.dispose();
+        landDownText.dispose();
+        snowText.dispose();
+        snowDownText.dispose();
+        desertText.dispose();
+        desertDownText.dispose();
+        planetText.dispose();
+        planetDownText.dispose();
+        snowLockedText.dispose();
+        desertLockedText.dispose();
+        planetLockedText.dispose();
     }
 }

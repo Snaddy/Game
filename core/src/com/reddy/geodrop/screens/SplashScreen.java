@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 import com.reddy.geodrop.Main;
 
+
 /**
  * Created by Hayden on 2017-01-09.
  */
@@ -15,11 +16,13 @@ public class SplashScreen implements Screen {
 
     private Main game;
     private Texture splash;
+    private float time;
 
     public SplashScreen(Main game){
         this.game = game;
-        splash = game.manager.get("ui/logo.png");
+        splash = new Texture("ui/logo.png");
         splash.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        time = 0;
     }
 
     @Override
@@ -27,13 +30,14 @@ public class SplashScreen implements Screen {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new LoadingScreen(game));
             }
-        }, 1.5f);
+        }, 2f);
     }
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -42,6 +46,7 @@ public class SplashScreen implements Screen {
         game.batch.begin();
         game.batch.draw(splash, (Main.WIDTH / 2) - (splash.getWidth() / 2), (Main.HEIGHT / 2) - (splash.getHeight() / 2));
         game.batch.end();
+
     }
 
     @Override

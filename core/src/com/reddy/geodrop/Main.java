@@ -3,17 +3,15 @@ package com.reddy.geodrop;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.reddy.geodrop.screens.SplashScreen;
 
 public class Main extends Game {
@@ -26,14 +24,13 @@ public class Main extends Game {
 
 	public SpriteBatch batch;
 
-	public Music gameSound;
-
 	public OrthographicCamera camera;
 
 	public AssetManager manager;
 
-	private TmxMapLoader loader;
+	private Music gameSound;
 
+	public Viewport viewPort;
 
 	@Override
 	public void create () {
@@ -42,92 +39,11 @@ public class Main extends Game {
 		camera.setToOrtho(false, WIDTH, HEIGHT);
 		manager = new AssetManager();
 
-		//load textures
-		manager.load("actors/player.png", Texture.class);
-		manager.load("actors/snowplayer.png", Texture.class);
-		manager.load("actors/desertplayer.png", Texture.class);
-		manager.load("actors/planetplayer.png", Texture.class);
-		manager.load("actors/square.png", Texture.class);
-		manager.load("actors/rectangle.png", Texture.class);
-		//ui
-		manager.load("ui/logo.png", Texture.class);
-		manager.load("ui/play.png", Texture.class);
-		manager.load("ui/credits.png", Texture.class);
-		manager.load("ui/menu.png", Texture.class);
-		manager.load("ui/next.png", Texture.class);
-		manager.load("ui/playup.png", Texture.class);
-		manager.load("ui/creditsup.png", Texture.class);
-		manager.load("ui/creditsdown.png", Texture.class);
-		manager.load("ui/nextup.png", Texture.class);
-		manager.load("ui/menuup.png", Texture.class);
-		manager.load("ui/bg.png", Texture.class);
-		manager.load("ui/buyRect.png", Texture.class);
-		manager.load("ui/buySquare.png", Texture.class);
-		manager.load("ui/jump.png", Texture.class);
-		manager.load("ui/box.png", Texture.class);
-		manager.load("ui/boxDown.png", Texture.class);
-		manager.load("ui/grassBg.png", Texture.class);
-		manager.load("ui/locked.png", Texture.class);
-		manager.load("ui/credits.png", Texture.class);
-		manager.load("ui/downarrow.png", Texture.class);
-		manager.load("ui/leftarrow.png", Texture.class);
-		manager.load("ui/tutorial.png", Texture.class);
-		manager.load("ui/tutorialDown.png", Texture.class);
-		manager.load("ui/mute.png", Texture.class);
-		manager.load("ui/volume.png", Texture.class);
-		manager.load("ui/blank.png", Texture.class);
-		manager.load("ui/selectscreen.png", Texture.class);
-		manager.load("ui/land.png", Texture.class);
-		manager.load("ui/landdown.png", Texture.class);
-		manager.load("ui/snow.png", Texture.class);
-		manager.load("ui/snowdown.png", Texture.class);
-		manager.load("ui/desert.png", Texture.class);
-		manager.load("ui/desertdown.png", Texture.class);
-		manager.load("ui/planet.png", Texture.class);
-		manager.load("ui/planetdown.png", Texture.class);
-		manager.load("ui/desertBg.png", Texture.class);
-		manager.load("ui/planetBg.png", Texture.class);
-		manager.load("ui/snowlocked.png", Texture.class);
-		manager.load("ui/desertlocked.png", Texture.class);
-		manager.load("ui/planetlocked.png", Texture.class);
-		//load sounds
-		manager.load("audio/song.ogg", Music.class);
-		manager.load("audio/pickup.ogg", Sound.class);
-		manager.load("audio/death.ogg", Sound.class);
-		manager.load("audio/victory.ogg", Sound.class);
-		manager.load("audio/button.ogg", Sound.class);
-		manager.load("audio/hit.ogg", Sound.class);
-		manager.load("audio/jump.ogg", Sound.class);
-		//load maps
-		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		manager.load("levels/level1.tmx", TiledMap.class);
-		manager.load("levels/level2.tmx", TiledMap.class);
-		manager.load("levels/level3.tmx", TiledMap.class);
-		manager.load("levels/level4.tmx", TiledMap.class);
-		manager.load("levels/level5.tmx", TiledMap.class);
-		manager.load("levels/level6.tmx", TiledMap.class);
-		manager.load("levels/level7.tmx", TiledMap.class);
-		manager.load("levels/level8.tmx", TiledMap.class);
-		manager.load("levels/level9.tmx", TiledMap.class);
-		manager.load("levels/level10.tmx", TiledMap.class);
-		manager.load("levels/level11.tmx", TiledMap.class);
-		manager.load("levels/level12.tmx", TiledMap.class);
-		manager.load("levels/level13.tmx", TiledMap.class);
-		manager.load("levels/level14.tmx", TiledMap.class);
-		manager.load("levels/level15.tmx", TiledMap.class);
-		manager.load("levels/level16.tmx", TiledMap.class);
-		manager.load("levels/level17.tmx", TiledMap.class);
-		manager.load("levels/level18.tmx", TiledMap.class);
-		manager.load("levels/level19.tmx", TiledMap.class);
-		manager.load("levels/level20.tmx", TiledMap.class);
-		manager.load("levels/level999.tmx", TiledMap.class);
+		viewPort = new StretchViewport(WIDTH, HEIGHT, camera);
 
-		manager.finishLoading();
-
-
-		gameSound = manager.get("audio/song.ogg", Music.class);
-		gameSound.setLooping(true);
+		gameSound = Gdx.audio.newMusic(Gdx.files.internal("audio/song.ogg"));
 		gameSound.setVolume(0.5f);
+		gameSound.setLooping(true);
 
 		initFonts();
 
@@ -136,15 +52,6 @@ public class Main extends Game {
 	@Override
 	public void render () {
 		super.render();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		gameSound.dispose();
-		manager.dispose();
-		font80.dispose();
-		font100.dispose();
 	}
 
 	public void playMusic(){
@@ -163,6 +70,15 @@ public class Main extends Game {
 				gameSound.setVolume(0.5f);
 			}
 		}, 2.5f);
+	}
+	
+	@Override
+	public void dispose () {
+		batch.dispose();
+		manager.dispose();
+		gameSound.dispose();
+		font80.dispose();
+		font100.dispose();
 	}
 
 	private void initFonts() {

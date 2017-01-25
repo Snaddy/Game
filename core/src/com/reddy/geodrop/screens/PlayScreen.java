@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -62,7 +61,7 @@ public class PlayScreen implements Screen {
 
     //ui stage
     private ImageButton buySq, buyRect, jump;
-    private Texture sqText, rectText, jumpText, arrowLeftText, arrowDownText;
+    private Texture sqText, rectText, jumpText, arrowLeftText, arrowDownText, sqCrate, rectCrate;
     private Image arrowLeft, arrowDown;
     private Drawable drawSq, drawRect, drawJump;
     private Preferences prefs;
@@ -82,17 +81,21 @@ public class PlayScreen implements Screen {
         world.setContactListener(gcl);
         debug = new Box2DDebugRenderer();
         new CreateWorld(world, map, game);
-        if(level <= 15)
+        if(level <= 15 || level == 999)
             player = new Player(world, game.manager.get("actors/player.png", Texture.class));
-        if(level > 15)
+        if(level > 15 && level != 999)
             player = new Player(world, game.manager.get("actors/snowplayer.png", Texture.class));
-        if(level > 30)
+        if(level > 30 && level != 999)
             player = new Player(world, game.manager.get("actors/desertplayer.png", Texture.class));
-        if(level > 45)
+        if(level > 45 && level != 999)
             player = new Player(world, game.manager.get("actors/planetplayer.png", Texture.class));
         death = game.manager.get("audio/death.ogg");
         jumpSound = game.manager.get("audio/jump.ogg");
         hud = new Hud(game.batch, level);
+        sqCrate = game.manager.get("actors/square.png");
+        sqCrate.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        rectCrate = game.manager.get("actors/rectangle.png");
+        rectCrate.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         prefs = Gdx.app.getPreferences("prefs");
 
@@ -102,8 +105,11 @@ public class PlayScreen implements Screen {
 
         //stage buttons
         sqText = game.manager.get("ui/buySquare.png");
+        sqText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         rectText = game.manager.get("ui/buyRect.png");
+        rectText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         jumpText = game.manager.get("ui/jump.png");
+        jumpText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         drawSq = new TextureRegionDrawable(new TextureRegion(sqText));
         drawRect = new TextureRegionDrawable(new TextureRegion(rectText));
         drawJump = new TextureRegionDrawable(new TextureRegion(jumpText));
@@ -297,9 +303,9 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
 
         game.batch.begin();
-        game.batch.draw(game.manager.get("actors/player.png", Texture.class), player.getX() - 80 / Main.PPM, player.getY() - 80 / Main.PPM, 160 / Main.PPM, 160 / Main.PPM);
+        game.batch.draw(player.getTex(), player.getX() - 80 / Main.PPM, player.getY() - 80 / Main.PPM, 160 / Main.PPM, 160 / Main.PPM);
         for(GameRectangle rect : rectangles){
-            game.batch.draw(game.manager.get("actors/rectangle.png", Texture.class),
+            game.batch.draw(rectCrate,
                     rect.getX(), rect.getY() - 2 / Main.PPM,
                     rect.getOriginX(), rect.getOriginY(),
                     600 / Main.PPM, 40 / Main.PPM,
@@ -309,7 +315,7 @@ public class PlayScreen implements Screen {
         }
 
         for(GameSquare sq : squares){
-            game.batch.draw(game.manager.get("actors/square.png", Texture.class),
+            game.batch.draw(sqCrate,
                     sq.getX(), sq.getY() - 2 / Main.PPM,
                     sq.getOriginX(), sq.getOriginY(),
                     140 / Main.PPM, 70 / Main.PPM,
@@ -359,5 +365,10 @@ public class PlayScreen implements Screen {
         hud.dispose();
         player.dispose();
         stage.dispose();
+        sqText.dispose();
+        rectText.dispose();
+        jumpText.dispose();
+        rectCrate.dispose();
+        sqCrate.dispose();
     }
 }

@@ -63,4 +63,8 @@ public class Player extends Sprite implements Disposable {
         world.dispose();
         tex.dispose();
     }
+
+    public Texture getTex() {
+        return tex;
+    }
 }

@@ -139,8 +139,8 @@ public class MenuScreen implements Screen {
 
         //puts menu buttons half way on screen
         play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 900);
-        credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2),675);
-        tutorial.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 450);
+        credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2),695);
+        tutorial.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 480);
         mute.setPosition(50, 50);
         stage.addActor(credits);
         stage.addActor(play);
