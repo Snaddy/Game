@@ -128,11 +128,11 @@ public class LoadingScreen implements Screen{
         game.manager.load("levels/level23.tmx", TiledMap.class);
         game.manager.load("levels/level24.tmx", TiledMap.class);
         game.manager.load("levels/level25.tmx", TiledMap.class);
-        //game.manager.load("levels/level26.tmx", TiledMap.class);
-        //game.manager.load("levels/level27.tmx", TiledMap.class);
-        //game.manager.load("levels/level28.tmx", TiledMap.class);
-        //game.manager.load("levels/level29.tmx", TiledMap.class);
-        //game.manager.load("levels/level30.tmx", TiledMap.class);
+        game.manager.load("levels/level26.tmx", TiledMap.class);
+        game.manager.load("levels/level27.tmx", TiledMap.class);
+        game.manager.load("levels/level28.tmx", TiledMap.class);
+        game.manager.load("levels/level29.tmx", TiledMap.class);
+        game.manager.load("levels/level30.tmx", TiledMap.class);
         game.manager.load("levels/level999.tmx", TiledMap.class);
     }
 

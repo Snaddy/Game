@@ -54,7 +54,7 @@ public class CreditsScreen implements Screen{
     public void update(){
         gameCam.position.y = gameCam.position.y - 1.5f;
         System.out.println(gameCam.position.y);
-        if(gameCam.position.y < -1300) {
+        if(gameCam.position.y < -1600) {
             game.setScreen(new MenuScreen(game));
         }
 

@@ -126,8 +126,8 @@ public class PlayScreen implements Screen {
         arrowLeft = new Image(arrowLeftText);
         arrowDown = new Image(arrowDownText);
         jumpLabel = new Label("Press this button to jump!", new Label.LabelStyle(game.font80, Color.WHITE));
-        boxLabel = new Label("Press this button to spawn a\ntall, thin crate for 100 coins", new Label.LabelStyle(game.font80, Color.WHITE));
-        rectLabel = new Label("Press this button to spawn a\nshort, wide crate for 300 coins", new Label.LabelStyle(game.font80, Color.WHITE));
+        boxLabel = new Label("Press this button to spawn the\nsmall box for 100 coins", new Label.LabelStyle(game.font80, Color.WHITE));
+        rectLabel = new Label("Press this button to spawn the\nbig box for 300 coins", new Label.LabelStyle(game.font80, Color.WHITE));
         coinLabel = new Label("Collect coins to spawn crates", new Label.LabelStyle(game.font80, Color.WHITE));
         notEnoughCoinsLabel = new Label("Not enough coins!", new Label.LabelStyle(game.font80, Color.RED));
     }
