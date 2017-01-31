@@ -128,7 +128,7 @@ public class PlayScreen implements Screen {
         jumpLabel = new Label("Press this button to jump!", new Label.LabelStyle(game.font80, Color.WHITE));
         boxLabel = new Label("Press this button to spawn the\nsmall box for 100 coins", new Label.LabelStyle(game.font80, Color.WHITE));
         rectLabel = new Label("Press this button to spawn the\nbig box for 300 coins", new Label.LabelStyle(game.font80, Color.WHITE));
-        coinLabel = new Label("Collect coins to spawn crates", new Label.LabelStyle(game.font80, Color.WHITE));
+        coinLabel = new Label("Collect coins to spawn boxes", new Label.LabelStyle(game.font80, Color.WHITE));
         notEnoughCoinsLabel = new Label("Not enough coins!", new Label.LabelStyle(game.font80, Color.RED));
     }
 
@@ -164,7 +164,7 @@ public class PlayScreen implements Screen {
         //death
         if (player.getY() + (160 / Main.PPM) < gameCam.position.y - (Main.HEIGHT / 2 / Main.PPM)) {
             if(prefs.getBoolean("mute") == true) {
-                death.play(0.25f);
+                death.play(0.4f);
             }
             game.setScreen(new PlayScreen(game, level));
         }

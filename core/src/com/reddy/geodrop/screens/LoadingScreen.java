@@ -133,11 +133,21 @@ public class LoadingScreen implements Screen{
         game.manager.load("levels/level28.tmx", TiledMap.class);
         game.manager.load("levels/level29.tmx", TiledMap.class);
         game.manager.load("levels/level30.tmx", TiledMap.class);
+        game.manager.load("levels/level31.tmx", TiledMap.class);
+        game.manager.load("levels/level32.tmx", TiledMap.class);
+        game.manager.load("levels/level33.tmx", TiledMap.class);
+        game.manager.load("levels/level34.tmx", TiledMap.class);
+        game.manager.load("levels/level35.tmx", TiledMap.class);
+        //game.manager.load("levels/level36.tmx", TiledMap.class);
+        //game.manager.load("levels/level37.tmx", TiledMap.class);
+        //game.manager.load("levels/level38.tmx", TiledMap.class);
+        //game.manager.load("levels/level39.tmx", TiledMap.class);
+        //game.manager.load("levels/level40.tmx", TiledMap.class);
         game.manager.load("levels/level999.tmx", TiledMap.class);
     }
 
     private void update(){
-        progress = MathUtils.lerp(progress, game.manager.getProgress(), .1f);
+        progress = MathUtils.lerp(progress, game.manager.getProgress(), .4f);
         if(game.manager.update() && progress >= game.manager.getProgress() - .00005f){
             game.setScreen(new MenuScreen(game));
         }
