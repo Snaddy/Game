@@ -25,6 +25,7 @@ public class ScreenSelect implements Screen{
 
     private Main game;
     private ImageTextButton[][] button = new ImageTextButton[3][5];
+    private ImageTextButton[] array = new ImageTextButton[5];
     private ImageTextButton.ImageTextButtonStyle lockedStyle, unlockedStyle;
     private Texture locked, unlocked, bg, backText, backDownText;
     private Drawable drawLocked, drawUnlocked, drawBack, drawBackDown;
@@ -98,27 +99,53 @@ public class ScreenSelect implements Screen{
     }
 
     public void initLevelSelect() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 5; j++) {
-                final int id = ((j + 1 + (i * 5)) + (15 * region));
-                if(id <= prefs.getInteger("levelsUnlocked") + 1) {
-                    button[i][j] = new ImageTextButton(id + "", unlockedStyle);
-                    button[i][j].addListener(new ClickListener(){
+
+        if (region != 3) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 5; j++) {
+                    final int id = ((j + 1 + (i * 5)) + (15 * region));
+                    if (id <= prefs.getInteger("levelsUnlocked") + 1) {
+                        button[i][j] = new ImageTextButton(id + "", unlockedStyle);
+                        button[i][j].addListener(new ClickListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                if (prefs.getBoolean("mute") == true) {
+                                    buttonSound.play(0.25f);
+                                }
+                                game.setScreen(new PlayScreen(game, id));
+                                stage.clear();
+                            }
+                        });
+                    } else
+                        button[i][j] = new ImageTextButton("", lockedStyle);
+
+                    button[i][j].setPosition((385) + 250 * j, (stage.getHeight() - 301) - 250 * i);
+                    stage.addActor(button[i][j]);
+                }
+            }
+        }
+
+        if (region == 3) {
+            for (int i = 0; i < 5; i++) {
+                final int id = (i + 1 + (15 * region));
+                if (id <= prefs.getInteger("levelsUnlocked")) {
+                    array[i] = new ImageTextButton(id + "", unlockedStyle);
+                    array[i].addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            if(prefs.getBoolean("mute") == true) {
+                            if (prefs.getBoolean("mute") == true) {
                                 buttonSound.play(0.25f);
                             }
                             game.setScreen(new PlayScreen(game, id));
                             stage.clear();
                         }
                     });
+                } else {
+                    array[i] = new ImageTextButton("", lockedStyle);
                 }
-                else
-                    button[i][j] = new ImageTextButton("", lockedStyle);
 
-                button[i][j].setPosition((385) + 250 * j, (stage.getHeight() - 301) - 250 * i);
-                stage.addActor(button[i][j]);
+                array[i].setPosition((385) + 250 * i, (stage.getHeight() / 2) + 200);
+                stage.addActor(array[i]);
             }
         }
     }

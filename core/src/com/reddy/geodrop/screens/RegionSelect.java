@@ -91,8 +91,8 @@ public class RegionSelect implements Screen {
         else
             desertLevels = prefs.getInteger("levelsUnlocked") - 30;
 
-        if(prefs.getInteger("levelsUnlocked") == 60)
-            planetLevels = 15;
+        if(prefs.getInteger("levelsUnlocked") == 50)
+            planetLevels = 5;
         else
             planetLevels = prefs.getInteger("levelsUnlocked") - 45;
 
@@ -100,7 +100,7 @@ public class RegionSelect implements Screen {
         landLabel = new Label (landLevels + "/15", new Label.LabelStyle(game.fontBerlin, Color.WHITE));
         snowLabel = new Label (snowLevels + "/15", new Label.LabelStyle(game.fontBerlin, Color.WHITE));
         desertLabel = new Label (desertLevels + "/15", new Label.LabelStyle(game.fontBerlin, Color.WHITE));
-        planetLabel = new Label (planetLevels + "/15", new Label.LabelStyle(game.fontBerlin, Color.WHITE));
+        planetLabel = new Label (planetLevels + "/5", new Label.LabelStyle(game.fontBerlin, Color.WHITE));
 
 
         initRegions();

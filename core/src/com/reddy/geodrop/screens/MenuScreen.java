@@ -26,7 +26,7 @@ public class MenuScreen implements Screen {
 
     private ImageButton play, credits, tutorial, mute;
     private Texture playText, creditsText, bg, playTextDown, creditsTextDown, tutorialText, tutorialTextDown, muteText, volumeText, blank;
-    private Drawable drawPlay, drawCredits, drawPlayDown, drawCreditsDown, drawTutorial, drawTutorialDown, drawMute, drawVolume, drawBlank;
+    private Drawable drawPlay, drawPlayDown, drawCredits, drawCreditsDown, drawTutorial, drawTutorialDown, drawMute, drawVolume, drawBlank;
     private Stage stage;
     private Main game;
     private OrthographicCamera gameCam;
@@ -43,10 +43,6 @@ public class MenuScreen implements Screen {
         gameCam.setToOrtho(false, Main.WIDTH, Main.HEIGHT);
         playText = game.manager.get("ui/playup.png");
         playText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        creditsText = game.manager.get("ui/creditsup.png");
-        creditsText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        creditsTextDown = game.manager.get("ui/creditsdown.png");
-        creditsTextDown.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         playTextDown = game.manager.get("ui/play.png");
         playTextDown.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         creditsText = game.manager.get("ui/creditsup.png");
@@ -71,7 +67,6 @@ public class MenuScreen implements Screen {
         tutorial = new ImageButton(drawTutorialDown, drawTutorial);
 
         prefs = Gdx.app.getPreferences("prefs");
-
 
         buttonSound = game.manager.get("audio/button.ogg", Sound.class);
 

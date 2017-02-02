@@ -164,14 +164,14 @@ public class PlayScreen implements Screen {
         //death
         if (player.getY() + (160 / Main.PPM) < gameCam.position.y - (Main.HEIGHT / 2 / Main.PPM)) {
             if(prefs.getBoolean("mute") == true) {
-                death.play(0.4f);
+                death.play(0.5f);
             }
             game.setScreen(new PlayScreen(game, level));
         }
         //player off camera
         if (player.getX() + (160 / Main.PPM) < gameCam.position.x - (Main.WIDTH / 2 / Main.PPM)) {
             if(prefs.getBoolean("mute") == true) {
-                death.play(0.25f);
+                death.play(0.5f);
             }
             game.setScreen(new PlayScreen(game, level));
         }
@@ -228,7 +228,7 @@ public class PlayScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (hud.getScore() >= 100) {
-                    squares.add(new GameSquare(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/square.png", Texture.class)));
+                    squares.add(new GameSquare(world, gameCam.position.x, 700 / Main.PPM, game.manager.get("actors/square.png", Texture.class)));
                     if(level != 999) {
                         hud.addScore(-100);
                     }
@@ -250,7 +250,7 @@ public class PlayScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (hud.getScore() >= 300) {
-                    rectangles.add(new GameRectangle(world, gameCam.position.x, 600 / Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
+                    rectangles.add(new GameRectangle(world, gameCam.position.x, 700 / Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
                     if (level != 999) {
                         hud.addScore(-300);
                     }
