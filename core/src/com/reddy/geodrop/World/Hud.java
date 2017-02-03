@@ -39,12 +39,12 @@ public class Hud implements Disposable{
         initFont();
 
         scoreLabel = new Label(String.format("%04d", score), new Label.LabelStyle(font100, Color.WHITE));
-        scoreLabel.setPosition(150, Main.HEIGHT - 150);
+        scoreLabel.setPosition(Main.WIDTH / 2 - scoreLabel.getWidth() / 2, Main.HEIGHT - 250);
         levelLabel = new Label("Level " + level, new Label.LabelStyle(font100, Color.WHITE));
         if(level == 999){
             levelLabel = new Label("Tutorial", new Label.LabelStyle(font100, Color.WHITE));
         }
-        levelLabel.setPosition(Main.WIDTH - levelLabel.getWidth() - 150, Main.HEIGHT - 150);
+        levelLabel.setPosition(Main.WIDTH - levelLabel.getWidth() - 175, Main.HEIGHT - 250);
         stage.addActor(scoreLabel);
         stage.addActor(levelLabel);
     }
@@ -62,7 +62,7 @@ public class Hud implements Disposable{
         FreeTypeFontGenerator g = new FreeTypeFontGenerator(Gdx.files.internal("fonts/soupofjustice.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        params.size = 80;
+        params.size = 100;
         params.minFilter = Texture.TextureFilter.Linear;
         params.magFilter = Texture.TextureFilter.Linear;
         font100 = g.generateFont(params);

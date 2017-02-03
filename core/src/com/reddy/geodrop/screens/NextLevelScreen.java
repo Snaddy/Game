@@ -70,6 +70,9 @@ public class NextLevelScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
+        game.ah.showI(true);
+        game.ah.showB(false);
+
        menu.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

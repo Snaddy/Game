@@ -30,7 +30,7 @@ public class SplashScreen implements Screen {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new LoadingScreen(game));
             }
         }, 2f);
     }

@@ -130,6 +130,10 @@ public class PlayScreen implements Screen {
         rectLabel = new Label("Press this button to spawn the\nbig box for 300 coins", new Label.LabelStyle(game.font80, Color.WHITE));
         coinLabel = new Label("Collect coins to spawn boxes", new Label.LabelStyle(game.font80, Color.WHITE));
         notEnoughCoinsLabel = new Label("Not enough coins!", new Label.LabelStyle(game.font80, Color.RED));
+
+        //ads
+        game.ah.showI(false);
+        game.ah.showB(true);
     }
 
     private void update(float dt) {

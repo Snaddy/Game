@@ -5,5 +5,7 @@ package com.reddy.geodrop;
  */
 
 public interface AdHandler {
-    public void show(boolean show);
+    public void showI(boolean show);
+
+    public void showB(boolean show);
 }
