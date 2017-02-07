@@ -1,4 +1,4 @@
-package com.reddy.geodrop.World;
+package com.reddy.boxdrop.World;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
@@ -12,9 +12,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.reddy.geodrop.Main;
-import com.reddy.geodrop.actors.Coin;
-import com.reddy.geodrop.actors.Finish;
+import com.reddy.boxdrop.actors.Coin;
 
 /**
  * Created by Hayden on 2016-12-25.
@@ -26,20 +24,20 @@ public class CreateWorld{
     PolygonShape shape = new PolygonShape();
     FixtureDef fdef = new FixtureDef();
     Body body;
-    private Main game;
+    private com.reddy.boxdrop.Main game;
 
-    public CreateWorld(World world, TiledMap map, Main game) {
+    public CreateWorld(World world, TiledMap map, com.reddy.boxdrop.Main game) {
         this.game = game;
         //ground
         for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / Main.PPM, (rect.getY() + rect.getHeight() / 2) / Main.PPM);
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / com.reddy.boxdrop.Main.PPM, (rect.getY() + rect.getHeight() / 2) / com.reddy.boxdrop.Main.PPM);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 / Main.PPM, rect.getHeight() / 2 / Main.PPM);
+            shape.setAsBox(rect.getWidth() / 2 / com.reddy.boxdrop.Main.PPM, rect.getHeight() / 2 / com.reddy.boxdrop.Main.PPM);
             fdef.shape = shape;
             body.createFixture(fdef).setUserData("ground");
         }
@@ -53,7 +51,7 @@ public class CreateWorld{
         //finish
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            new Finish(world, map, rect, game.manager.get("audio/victory.ogg", Sound.class));
+            new com.reddy.boxdrop.actors.Finish(world, map, rect, game.manager.get("audio/victory.ogg", Sound.class));
         }
     }
 }

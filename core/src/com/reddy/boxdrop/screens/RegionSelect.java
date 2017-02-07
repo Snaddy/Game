@@ -1,4 +1,4 @@
-package com.reddy.geodrop.screens;
+package com.reddy.boxdrop.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.reddy.geodrop.Main;
 
 /**
  * Created by Hayden on 2017-01-20.
@@ -24,7 +23,7 @@ import com.reddy.geodrop.Main;
 
 public class RegionSelect implements Screen {
 
-    private Main game;
+    private com.reddy.boxdrop.Main game;
     private Stage stage;
     private Texture landText, landDownText, snowText, snowDownText, desertText, desertDownText,
             planetText, planetDownText, snowLockedText, desertLockedText, planetLockedText, backText, backDownText;
@@ -36,9 +35,9 @@ public class RegionSelect implements Screen {
     private Preferences prefs;
     private int landLevels, snowLevels, desertLevels, planetLevels;
 
-    public RegionSelect(Main game){
+    public RegionSelect(com.reddy.boxdrop.Main game){
         this.game = game;
-        stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
+        stage = new Stage(new StretchViewport(com.reddy.boxdrop.Main.WIDTH, com.reddy.boxdrop.Main.HEIGHT));
         landText = game.manager.get("ui/land.png");
         landDownText = game.manager.get("ui/landdown.png");
         snowText = game.manager.get("ui/snow.png");

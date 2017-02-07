@@ -1,4 +1,4 @@
-package com.reddy.geodrop.actors;
+package com.reddy.boxdrop.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -13,9 +13,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
-import com.reddy.geodrop.Main;
-import com.reddy.geodrop.World.Hud;
-import com.reddy.geodrop.screens.PlayScreen;
 
 /**
  * Created by Hayden on 2017-01-03.
@@ -43,11 +40,11 @@ public class Coin implements Disposable{
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
 
-        bdef.position.set((bounds.x + bounds.width / 2) / Main.PPM, (bounds.y + bounds.height / 2) / Main.PPM);
+        bdef.position.set((bounds.x + bounds.width / 2) / com.reddy.boxdrop.Main.PPM, (bounds.y + bounds.height / 2) / com.reddy.boxdrop.Main.PPM);
         bdef.type = BodyDef.BodyType.StaticBody;
         body = world.createBody(bdef);
 
-        shape.setRadius(32 / Main.PPM);
+        shape.setRadius(32 / com.reddy.boxdrop.Main.PPM);
         fdef.shape = shape;
         fdef.isSensor = true;
         body.createFixture(fdef).setUserData(this);
@@ -57,7 +54,7 @@ public class Coin implements Disposable{
 
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
         cell.setTile(tileSet.getTile(30));
-        layer.setCell((int)(body.getPosition().x * Main.PPM / 128), (int)(body.getPosition().y * Main.PPM / 128), cell);
+        layer.setCell((int)(body.getPosition().x * com.reddy.boxdrop.Main.PPM / 128), (int)(body.getPosition().y * com.reddy.boxdrop.Main.PPM / 128), cell);
     }
 
     public void hit(){
@@ -69,9 +66,9 @@ public class Coin implements Disposable{
 
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
         cell.setTile(tileSet.getTile(0));
-        layer.setCell((int)(body.getPosition().x * Main.PPM / 128), (int)(body.getPosition().y * Main.PPM / 128), cell);
-        if(PlayScreen.level != 999) {
-            Hud.addScore(100);
+        layer.setCell((int)(body.getPosition().x * com.reddy.boxdrop.Main.PPM / 128), (int)(body.getPosition().y * com.reddy.boxdrop.Main.PPM / 128), cell);
+        if(com.reddy.boxdrop.screens.PlayScreen.level != 999) {
+            com.reddy.boxdrop.World.Hud.addScore(100);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.reddy.geodrop.screens;
+package com.reddy.boxdrop.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -26,14 +26,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.reddy.geodrop.Main;
-import com.reddy.geodrop.World.CreateWorld;
-import com.reddy.geodrop.World.GameContactListener;
-import com.reddy.geodrop.World.Hud;
-import com.reddy.geodrop.actors.Finish;
-import com.reddy.geodrop.actors.Player;
-import com.reddy.geodrop.actors.GameRectangle;
-import com.reddy.geodrop.actors.GameSquare;
+import com.reddy.boxdrop.World.CreateWorld;
+import com.reddy.boxdrop.World.GameContactListener;
+import com.reddy.boxdrop.actors.GameRectangle;
+
 import java.util.ArrayList;
 
 /**
@@ -42,8 +38,9 @@ import java.util.ArrayList;
 
 public class PlayScreen implements Screen {
 
-    public static Main game;
+    public static com.reddy.boxdrop.Main game;
     public static int level;
+    public static boolean finished;
     private OrthographicCamera gameCam;
     private Viewport viewPort;
     private World world;
@@ -52,10 +49,10 @@ public class PlayScreen implements Screen {
     private Sound death, jumpSound;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-    private Player player;
-    private Hud hud;
+    private com.reddy.boxdrop.actors.Player player;
+    private com.reddy.boxdrop.World.Hud hud;
     private ArrayList<GameRectangle> rectangles;
-    private ArrayList<GameSquare> squares;
+    private ArrayList<com.reddy.boxdrop.actors.GameSquare> squares;
     private Stage stage;
     private Label jumpLabel, boxLabel, rectLabel, coinLabel, notEnoughCoinsLabel;
 
@@ -66,32 +63,33 @@ public class PlayScreen implements Screen {
     private Drawable drawSq, drawRect, drawJump;
     private Preferences prefs;
 
-    public PlayScreen(Main game, int level) {
+    public PlayScreen(com.reddy.boxdrop.Main game, int level) {
         this.game = game;
         this.level = level;
+        finished = false;
         gameCam = new OrthographicCamera();
-        viewPort = new StretchViewport(Main.WIDTH / Main.PPM, Main.HEIGHT / Main.PPM, gameCam);
+        viewPort = new StretchViewport(com.reddy.boxdrop.Main.WIDTH / com.reddy.boxdrop.Main.PPM, com.reddy.boxdrop.Main.HEIGHT / com.reddy.boxdrop.Main.PPM, gameCam);
         gameCam.setToOrtho(false, viewPort.getWorldWidth(), viewPort.getWorldHeight());
         gameCam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
-        stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
+        stage = new Stage(new StretchViewport(com.reddy.boxdrop.Main.WIDTH, com.reddy.boxdrop.Main.HEIGHT));
         map = game.manager.get("levels/level" + level + ".tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PPM);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / com.reddy.boxdrop.Main.PPM);
         world = new World(new Vector2(0, -10), true);
         gcl = new GameContactListener();
         world.setContactListener(gcl);
         debug = new Box2DDebugRenderer();
         new CreateWorld(world, map, game);
         if(level <= 15 || level == 999)
-            player = new Player(world, game.manager.get("actors/player.png", Texture.class));
+            player = new com.reddy.boxdrop.actors.Player(world, game.manager.get("actors/player.png", Texture.class));
         if(level > 15 && level != 999)
-            player = new Player(world, game.manager.get("actors/snowplayer.png", Texture.class));
+            player = new com.reddy.boxdrop.actors.Player(world, game.manager.get("actors/snowplayer.png", Texture.class));
         if(level > 30 && level != 999)
-            player = new Player(world, game.manager.get("actors/desertplayer.png", Texture.class));
+            player = new com.reddy.boxdrop.actors.Player(world, game.manager.get("actors/desertplayer.png", Texture.class));
         if(level > 45 && level != 999)
-            player = new Player(world, game.manager.get("actors/planetplayer.png", Texture.class));
+            player = new com.reddy.boxdrop.actors.Player(world, game.manager.get("actors/planetplayer.png", Texture.class));
         death = game.manager.get("audio/death.ogg");
         jumpSound = game.manager.get("audio/jump.ogg");
-        hud = new Hud(game.batch, level);
+        hud = new com.reddy.boxdrop.World.Hud(game.batch, level);
         sqCrate = game.manager.get("actors/square.png");
         sqCrate.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         rectCrate = game.manager.get("actors/rectangle.png");
@@ -101,7 +99,7 @@ public class PlayScreen implements Screen {
 
         //arraylists
         rectangles = new ArrayList<GameRectangle>();
-        squares = new ArrayList<GameSquare>();
+        squares = new ArrayList<com.reddy.boxdrop.actors.GameSquare>();
 
         //stage buttons
         sqText = game.manager.get("ui/buySquare.png");
@@ -130,13 +128,14 @@ public class PlayScreen implements Screen {
         rectLabel = new Label("Press this button to spawn the\nbig box for 300 coins", new Label.LabelStyle(game.font80, Color.WHITE));
         coinLabel = new Label("Collect coins to spawn boxes", new Label.LabelStyle(game.font80, Color.WHITE));
         notEnoughCoinsLabel = new Label("Not enough coins!", new Label.LabelStyle(game.font80, Color.RED));
-
-        //ads
         game.ah.showI(false);
-        game.ah.showB(true);
     }
 
     private void update(float dt) {
+
+        if(!finished) {
+            hud.addTime(dt);
+        }
 
         if (player.body.getLinearVelocity().x <= 3f)
             player.body.applyLinearImpulse(new Vector2(0.1f, 0), player.body.getWorldCenter(), true);
@@ -144,14 +143,14 @@ public class PlayScreen implements Screen {
             player.body.applyLinearImpulse(new Vector2(-0.1f, 0), player.body.getWorldCenter(), true);
 
         //move with player while they're moving
-        if (player.getX() + 650 / Main.PPM >= gameCam.position.x) {
-            if (Math.round(player.body.getLinearVelocity().x) > 0f && !Finish.isLevelFinished())
-                gameCam.position.x = gameCam.position.x + (player.body.getLinearVelocity().x) / Main.PPM * 1.666f;
+        if (player.getX() + 650 / com.reddy.boxdrop.Main.PPM >= gameCam.position.x) {
+            if (Math.round(player.body.getLinearVelocity().x) > 0f && !com.reddy.boxdrop.actors.Finish.isLevelFinished())
+                gameCam.position.x = gameCam.position.x + (player.body.getLinearVelocity().x) / com.reddy.boxdrop.Main.PPM * 1.666f;
         }
 
         //keep camera moving
-        if (Math.round(player.body.getLinearVelocity().x) <= 0f && !Finish.isLevelFinished())
-            gameCam.position.x = gameCam.position.x + 5f / Main.PPM;
+        if (Math.round(player.body.getLinearVelocity().x) <= 0f && !com.reddy.boxdrop.actors.Finish.isLevelFinished())
+            gameCam.position.x = gameCam.position.x + 5f / com.reddy.boxdrop.Main.PPM;
 
         world.step(1 / 60f, 6, 2);
 
@@ -159,65 +158,69 @@ public class PlayScreen implements Screen {
         for(GameRectangle rect : rectangles){
             rect.update();
         }
-        for(GameSquare sq : squares){
+        for(com.reddy.boxdrop.actors.GameSquare sq : squares){
             sq.update();
         }
         gameCam.update();
         renderer.setView(gameCam);
 
         //death
-        if (player.getY() + (160 / Main.PPM) < gameCam.position.y - (Main.HEIGHT / 2 / Main.PPM)) {
+        if (player.getY() + (160 / com.reddy.boxdrop.Main.PPM) < gameCam.position.y - (com.reddy.boxdrop.Main.HEIGHT / 2 / com.reddy.boxdrop.Main.PPM)) {
+            prefs.putInteger("deaths", prefs.getInteger("deaths") + 1);
+            prefs.flush();
             if(prefs.getBoolean("mute") == true) {
-                death.play(0.5f);
+                death.play();
             }
             game.setScreen(new PlayScreen(game, level));
         }
         //player off camera
-        if (player.getX() + (160 / Main.PPM) < gameCam.position.x - (Main.WIDTH / 2 / Main.PPM)) {
+        if (player.getX() + (160 / com.reddy.boxdrop.Main.PPM) < gameCam.position.x - (com.reddy.boxdrop.Main.WIDTH / 2 / com.reddy.boxdrop.Main.PPM)) {
+            prefs.putInteger("deaths", prefs.getInteger("deaths") + 1);
+            prefs.flush();
             if(prefs.getBoolean("mute") == true) {
-                death.play(0.5f);
+                death.play();
             }
             game.setScreen(new PlayScreen(game, level));
         }
 
-        if(gameCam.position.x <= 2000 / Main.PPM && level == 999) {
-            coinLabel.setPosition((Main.WIDTH / 2) - (coinLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+        if(gameCam.position.x <= 2000 / com.reddy.boxdrop.Main.PPM && level == 999) {
+            coinLabel.setPosition((com.reddy.boxdrop.Main.WIDTH / 2) - (coinLabel.getWidth() / 2), com.reddy.boxdrop.Main.HEIGHT / 2 + 100);
             stage.addActor(coinLabel);
         }
         else
             coinLabel.setText("");
 
 
-        if(gameCam.position.x > 2050 / Main.PPM && level == 999) {
-            jumpLabel.setPosition((Main.WIDTH / 2) - (jumpLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+        if(gameCam.position.x > 2050 / com.reddy.boxdrop.Main.PPM && level == 999) {
+            jumpLabel.setPosition((com.reddy.boxdrop.Main.WIDTH / 2) - (jumpLabel.getWidth() / 2), com.reddy.boxdrop.Main.HEIGHT / 2 + 100);
             arrowLeft.setPosition(300, 50);
             stage.addActor(jumpLabel);
             stage.addActor(arrowLeft);
-            if(gameCam.position.x > 3000 / Main.PPM){
+            if(gameCam.position.x > 3000 / com.reddy.boxdrop.Main.PPM){
                 jumpLabel.setText("");
                 arrowLeft.remove();
             }
         }
 
-        if(gameCam.position.x > 3300 / Main.PPM && level == 999) {
-            boxLabel.setPosition((Main.WIDTH / 2) - (boxLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+        if(gameCam.position.x > 3300 / com.reddy.boxdrop.Main.PPM && level == 999) {
+            boxLabel.setPosition((com.reddy.boxdrop.Main.WIDTH / 2) - (boxLabel.getWidth() / 2), com.reddy.boxdrop.Main.HEIGHT / 2 + 100);
             boxLabel.setAlignment(Align.center);
-            arrowDown.setPosition(Main.WIDTH - 600, 250);
+            arrowDown.setPosition(com.reddy.boxdrop.Main.WIDTH - 600, 250);
             stage.addActor(boxLabel);
             stage.addActor(arrowDown);
-            if(gameCam.position.x > 5000 / Main.PPM){
+            if(gameCam.position.x > 5000 / com.reddy.boxdrop.Main.PPM){
                 boxLabel.setText("");
                 arrowDown.remove();
             }
         }
 
-        if(gameCam.position.x > 6000 / Main.PPM && level == 999) {
-            rectLabel.setPosition((Main.WIDTH / 2) - (rectLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+        if(gameCam.position.x > 6000 / com.reddy.boxdrop.Main.PPM && level == 999) {
+            rectLabel.setPosition((com.reddy.boxdrop.Main.WIDTH / 2) - (rectLabel.getWidth() / 2), com.reddy.boxdrop.Main.HEIGHT / 2 + 100);
             rectLabel.setAlignment(Align.center);
-            arrowDown.setPosition(Main.WIDTH - 300, 250);
+            arrowDown.setPosition(com.reddy.boxdrop.Main.WIDTH - 300, 250);
             stage.addActor(rectLabel);
             stage.addActor(arrowDown);
-            if(gameCam.position.x > 7200 / Main.PPM){
+            if(gameCam.position.x > 7200 / com.reddy.boxdrop.Main.PPM){
                 rectLabel.setText("");
                 arrowDown.remove();
             }
@@ -227,18 +230,24 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
+
+        if(prefs.getInteger("deaths") >= 8) {
+            game.ah.showI(true);
+        }
+
+
         Gdx.input.setInputProcessor(stage);
         buySq.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (hud.getScore() >= 100) {
-                    squares.add(new GameSquare(world, gameCam.position.x, 700 / Main.PPM, game.manager.get("actors/square.png", Texture.class)));
+                    squares.add(new com.reddy.boxdrop.actors.GameSquare(world, gameCam.position.x, 700 / com.reddy.boxdrop.Main.PPM, game.manager.get("actors/square.png", Texture.class)));
                     if(level != 999) {
                         hud.addScore(-100);
                     }
                     notEnoughCoinsLabel.remove();
                 } else {
-                    notEnoughCoinsLabel.setPosition((Main.WIDTH / 2) - (notEnoughCoinsLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+                    notEnoughCoinsLabel.setPosition((com.reddy.boxdrop.Main.WIDTH / 2) - (notEnoughCoinsLabel.getWidth() / 2), com.reddy.boxdrop.Main.HEIGHT / 2 + 100);
                     stage.addActor(notEnoughCoinsLabel);
                     Timer.schedule(new Timer.Task() {
                         @Override
@@ -254,13 +263,13 @@ public class PlayScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (hud.getScore() >= 300) {
-                    rectangles.add(new GameRectangle(world, gameCam.position.x, 700 / Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
+                    rectangles.add(new GameRectangle(world, gameCam.position.x, 700 / com.reddy.boxdrop.Main.PPM, game.manager.get("actors/rectangle.png", Texture.class)));
                     if (level != 999) {
                         hud.addScore(-300);
                     }
                     notEnoughCoinsLabel.remove();
                 } else {
-                        notEnoughCoinsLabel.setPosition((Main.WIDTH / 2) - (notEnoughCoinsLabel.getWidth() / 2), Main.HEIGHT / 2 + 100);
+                        notEnoughCoinsLabel.setPosition((com.reddy.boxdrop.Main.WIDTH / 2) - (notEnoughCoinsLabel.getWidth() / 2), com.reddy.boxdrop.Main.HEIGHT / 2 + 100);
                         stage.addActor(notEnoughCoinsLabel);
                         Timer.schedule(new Timer.Task() {
                             @Override
@@ -285,8 +294,8 @@ public class PlayScreen implements Screen {
             }
         });
 
-        buySq.setPosition(Main.WIDTH - 600, 30);
-        buyRect.setPosition(Main.WIDTH - 300, 30);
+        buySq.setPosition(com.reddy.boxdrop.Main.WIDTH - 600, 30);
+        buyRect.setPosition(com.reddy.boxdrop.Main.WIDTH - 300, 30);
         jump.setPosition(100, 30);
         stage.addActor(buyRect);
         stage.addActor(buySq);
@@ -307,22 +316,22 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
 
         game.batch.begin();
-        game.batch.draw(player.getTex(), player.getX() - 80 / Main.PPM, player.getY() - 80 / Main.PPM, 160 / Main.PPM, 160 / Main.PPM);
+        game.batch.draw(player.getTex(), player.getX() - 80 / com.reddy.boxdrop.Main.PPM, player.getY() - 80 / com.reddy.boxdrop.Main.PPM, 160 / com.reddy.boxdrop.Main.PPM, 160 / com.reddy.boxdrop.Main.PPM);
         for(GameRectangle rect : rectangles){
             game.batch.draw(rectCrate,
-                    rect.getX(), rect.getY() - 2 / Main.PPM,
+                    rect.getX(), rect.getY() - 2 / com.reddy.boxdrop.Main.PPM,
                     rect.getOriginX(), rect.getOriginY(),
-                    600 / Main.PPM, 40 / Main.PPM,
+                    600 / com.reddy.boxdrop.Main.PPM, 40 / com.reddy.boxdrop.Main.PPM,
                     1f, 1f,
                     rect.getRotation(), 0, 0,
                     300, 20, false, false);
         }
 
-        for(GameSquare sq : squares){
+        for(com.reddy.boxdrop.actors.GameSquare sq : squares){
             game.batch.draw(sqCrate,
-                    sq.getX(), sq.getY() - 2 / Main.PPM,
+                    sq.getX(), sq.getY() - 2 / com.reddy.boxdrop.Main.PPM,
                     sq.getOriginX(), sq.getOriginY(),
-                    140 / Main.PPM, 70 / Main.PPM,
+                    140 / com.reddy.boxdrop.Main.PPM, 70 / com.reddy.boxdrop.Main.PPM,
                     1f, 1f,
                     sq.getRotation(), 0, 0,
                     70, 35, false, false);

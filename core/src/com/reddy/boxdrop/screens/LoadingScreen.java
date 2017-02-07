@@ -1,4 +1,4 @@
-package com.reddy.geodrop.screens;
+package com.reddy.boxdrop.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.reddy.geodrop.Main;
 
 /**
  * Created by Hayden on 2017-02-02.
@@ -21,14 +20,14 @@ import com.reddy.geodrop.Main;
 
 public class LoadingScreen implements Screen {
 
-    public Main game;
+    public com.reddy.boxdrop.Main game;
     private float progress;
     private Stage stage;
     private Label loading;
 
-    public LoadingScreen(Main game){
+    public LoadingScreen(com.reddy.boxdrop.Main game){
         this.game = game;
-        stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
+        stage = new Stage(new StretchViewport(com.reddy.boxdrop.Main.WIDTH, com.reddy.boxdrop.Main.HEIGHT));
         loading = new Label("0", new Label.LabelStyle(game.font180, Color.WHITE));
     }
 
@@ -148,7 +147,7 @@ public class LoadingScreen implements Screen {
     public void show() {
         progress = 0f;
         queueAssets();
-        loading.setPosition(Main.WIDTH / 2 - (loading.getWidth() / 2), Main.HEIGHT / 2 - loading.getHeight() / 2);
+        loading.setPosition(com.reddy.boxdrop.Main.WIDTH / 2 - (loading.getWidth() / 2), com.reddy.boxdrop.Main.HEIGHT / 2 - loading.getHeight() / 2);
         stage.addActor(loading);
     }
 
@@ -157,10 +156,10 @@ public class LoadingScreen implements Screen {
         loading.setText((int)progress + "");
 
         if((int)progress >= 10)
-            loading.setPosition(Main.WIDTH / 2 - (loading.getWidth() / 2 + 30), Main.HEIGHT / 2 - loading.getHeight() / 2);
+            loading.setPosition(com.reddy.boxdrop.Main.WIDTH / 2 - (loading.getWidth() / 2 + 30), com.reddy.boxdrop.Main.HEIGHT / 2 - loading.getHeight() / 2);
 
         if((int)progress == 100)
-            loading.setPosition(Main.WIDTH / 2 - (loading.getWidth() / 2 + 50), Main.HEIGHT / 2 - loading.getHeight() / 2);
+            loading.setPosition(com.reddy.boxdrop.Main.WIDTH / 2 - (loading.getWidth() / 2 + 50), com.reddy.boxdrop.Main.HEIGHT / 2 - loading.getHeight() / 2);
 
         if(game.manager.update() && progress == 100) {
             Timer.schedule(new Timer.Task() {

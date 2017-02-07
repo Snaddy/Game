@@ -1,4 +1,4 @@
-package com.reddy.geodrop.actors;
+package com.reddy.boxdrop.actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
-import com.reddy.geodrop.Main;
 
 /**
  * Created by Hayden on 2016-12-31.
@@ -43,7 +42,7 @@ public class GameRectangle extends Sprite implements Disposable{
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(300 / Main.PPM, 20 / Main.PPM);
+        shape.setAsBox(300 / com.reddy.boxdrop.Main.PPM, 20 / com.reddy.boxdrop.Main.PPM);
         fdef.shape = shape;
         fdef.friction = 1f;
         fdef.restitution = 0f;
@@ -52,8 +51,8 @@ public class GameRectangle extends Sprite implements Disposable{
     }
 
     public void update(){
-        this.setPosition(body.getPosition().x - 300 / Main.PPM, body.getPosition().y - 20 / Main.PPM);
-        this.setOrigin(rect.getX() + rect.getWidth()/ Main.PPM, rect.getY() + rect.getHeight()/ Main.PPM);
+        this.setPosition(body.getPosition().x - 300 / com.reddy.boxdrop.Main.PPM, body.getPosition().y - 20 / com.reddy.boxdrop.Main.PPM);
+        this.setOrigin(rect.getX() + rect.getWidth()/ com.reddy.boxdrop.Main.PPM, rect.getY() + rect.getHeight()/ com.reddy.boxdrop.Main.PPM);
         this.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
     }
 

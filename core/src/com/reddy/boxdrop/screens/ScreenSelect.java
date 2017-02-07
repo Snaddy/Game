@@ -1,4 +1,4 @@
-package com.reddy.geodrop.screens;
+package com.reddy.boxdrop.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.reddy.geodrop.Main;
 
 /**
  * Created by Hayden on 2017-01-10.
@@ -23,7 +22,7 @@ import com.reddy.geodrop.Main;
 
 public class ScreenSelect implements Screen{
 
-    private Main game;
+    private com.reddy.boxdrop.Main game;
     private ImageTextButton[][] button = new ImageTextButton[3][5];
     private ImageTextButton[] array = new ImageTextButton[5];
     private ImageTextButton.ImageTextButtonStyle lockedStyle, unlockedStyle;
@@ -35,11 +34,11 @@ public class ScreenSelect implements Screen{
     private int region;
     private ImageButton back;
 
-    public ScreenSelect(Main game, int region, Texture bg){
+    public ScreenSelect(com.reddy.boxdrop.Main game, int region, Texture bg){
         this.game = game;
         this.region = region;
         this.bg = bg;
-        stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
+        stage = new Stage(new StretchViewport(com.reddy.boxdrop.Main.WIDTH, com.reddy.boxdrop.Main.HEIGHT));
         unlocked = game.manager.get("ui/box.png");
         locked = game.manager.get("ui/locked.png");
         backText = game.manager.get("ui/backUp.png");
@@ -79,7 +78,7 @@ public class ScreenSelect implements Screen{
 
         initLevelSelect();
 
-        back.setPosition(Main.WIDTH / 2 - back.getWidth() / 2, 90);
+        back.setPosition(com.reddy.boxdrop.Main.WIDTH / 2 - back.getWidth() / 2, 90);
 
         stage.addActor(back);
     }

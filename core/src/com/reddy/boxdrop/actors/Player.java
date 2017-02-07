@@ -1,4 +1,4 @@
-package com.reddy.geodrop.actors;
+package com.reddy.boxdrop.actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
-import com.reddy.geodrop.Main;
 
 /**
  * Created by Hayden on 2016-12-24.
@@ -33,14 +32,14 @@ public class Player extends Sprite implements Disposable {
 
     public void definePlayer(){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(player.getWidth() / 2 / Main.PPM, 384/ Main.PPM + player.getWidth() / 2 / Main.PPM);
+        bdef.position.set(player.getWidth() / 2 / com.reddy.boxdrop.Main.PPM, 384/ com.reddy.boxdrop.Main.PPM + player.getWidth() / 2 / com.reddy.boxdrop.Main.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bdef);
         body.setUserData(player);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius((player.getWidth() - 5) / 2 / Main.PPM);
+        shape.setRadius((player.getWidth() - 5) / 2 / com.reddy.boxdrop.Main.PPM);
 
         fdef.shape = shape;
         fdef.friction = 0f;
@@ -48,7 +47,7 @@ public class Player extends Sprite implements Disposable {
         body.createFixture(fdef).setUserData("body");
 
         PolygonShape jumpSensor = new PolygonShape();
-        jumpSensor.setAsBox(player.getWidth() / 4 / Main.PPM, 54 / Main.PPM, new Vector2(0, -29 / Main.PPM), 0);
+        jumpSensor.setAsBox(player.getWidth() / 4 / com.reddy.boxdrop.Main.PPM, 54 / com.reddy.boxdrop.Main.PPM, new Vector2(0, -29 / com.reddy.boxdrop.Main.PPM), 0);
         fdef.shape = jumpSensor;
         fdef.isSensor = true;
         body.createFixture(fdef).setUserData("sensor");

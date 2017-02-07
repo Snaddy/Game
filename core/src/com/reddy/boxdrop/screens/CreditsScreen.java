@@ -1,4 +1,4 @@
-package com.reddy.geodrop.screens;
+package com.reddy.boxdrop.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -12,14 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.reddy.geodrop.Main;
 
 /**
  * Created by Hayden on 2017-01-17.
  */
 
 public class CreditsScreen implements Screen{
-    private Main game;
+    private com.reddy.boxdrop.Main game;
     private ImageButton menu;
     private Texture menuUp, menuDown, credits;
     private Drawable drawMenuUp, drawMenuDown;
@@ -27,11 +26,11 @@ public class CreditsScreen implements Screen{
     private Viewport viewPort;
     private Sound buttonSound;
 
-    public CreditsScreen(Main game){
+    public CreditsScreen(com.reddy.boxdrop.Main game){
         this.game = game;
         gameCam = new OrthographicCamera();
-        viewPort = new StretchViewport(Main.WIDTH, Main.HEIGHT, gameCam);
-        gameCam.setToOrtho(false, Main.WIDTH, Main.HEIGHT);
+        viewPort = new StretchViewport(com.reddy.boxdrop.Main.WIDTH, com.reddy.boxdrop.Main.HEIGHT, gameCam);
+        gameCam.setToOrtho(false, com.reddy.boxdrop.Main.WIDTH, com.reddy.boxdrop.Main.HEIGHT);
         credits = game.manager.get("ui/credits.png");
         menuUp = game.manager.get("ui/menuup.png");
         menuUp.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

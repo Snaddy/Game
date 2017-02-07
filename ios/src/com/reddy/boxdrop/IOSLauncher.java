@@ -1,4 +1,4 @@
-package com.reddy.geodrop;
+package com.reddy.boxdrop;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;

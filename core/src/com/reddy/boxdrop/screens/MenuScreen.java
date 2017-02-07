@@ -1,4 +1,4 @@
-package com.reddy.geodrop.screens;
+package com.reddy.boxdrop.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.reddy.geodrop.Main;
 
 /**
  * Created by Hayden on 2017-01-09.
@@ -28,19 +27,18 @@ public class MenuScreen implements Screen {
     private Texture playText, creditsText, bg, playTextDown, creditsTextDown, tutorialText, tutorialTextDown, muteText, volumeText, blank;
     private Drawable drawPlay, drawPlayDown, drawCredits, drawCreditsDown, drawTutorial, drawTutorialDown, drawMute, drawVolume, drawBlank;
     private Stage stage;
-    private Main game;
+    private com.reddy.boxdrop.Main game;
     private OrthographicCamera gameCam;
     private Viewport viewPort;
     private Sound buttonSound;
-    private ImageButton.ImageButtonStyle style;
     private Preferences prefs;
 
-    public MenuScreen(Main game) {
+    public MenuScreen(com.reddy.boxdrop.Main game) {
         this.game = game;
-        stage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
+        stage = new Stage(new StretchViewport(com.reddy.boxdrop.Main.WIDTH, com.reddy.boxdrop.Main.HEIGHT));
         gameCam = new OrthographicCamera();
-        viewPort = new StretchViewport(Main.WIDTH, Main.HEIGHT, gameCam);
-        gameCam.setToOrtho(false, Main.WIDTH, Main.HEIGHT);
+        viewPort = new StretchViewport(com.reddy.boxdrop.Main.WIDTH, com.reddy.boxdrop.Main.HEIGHT, gameCam);
+        gameCam.setToOrtho(false, com.reddy.boxdrop.Main.WIDTH, com.reddy.boxdrop.Main.HEIGHT);
         playText = game.manager.get("ui/playup.png");
         playText.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         playTextDown = game.manager.get("ui/play.png");
@@ -68,6 +66,10 @@ public class MenuScreen implements Screen {
 
         prefs = Gdx.app.getPreferences("prefs");
 
+        prefs.putInteger("deaths", 0);
+        prefs.flush();
+
+
         buttonSound = game.manager.get("audio/button.ogg", Sound.class);
 
         //audio
@@ -81,10 +83,12 @@ public class MenuScreen implements Screen {
         drawBlank = new TextureRegionDrawable(new TextureRegion(blank));
 
         mute = new ImageButton(drawBlank, drawBlank);
+        System.out.println("best time: " + prefs.getFloat("level1best"));
     }
 
     @Override
     public void show() {
+
         Gdx.input.setInputProcessor(stage);
 
         play.addListener(new ClickListener(){
@@ -133,9 +137,9 @@ public class MenuScreen implements Screen {
         });
 
         //puts menu buttons half way on screen
-        play.setPosition((Main.WIDTH / 2) - (play.getWidth() / 2), 900);
-        credits.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2),695);
-        tutorial.setPosition((Main.WIDTH / 2) - (credits.getWidth() / 2), 480);
+        play.setPosition((com.reddy.boxdrop.Main.WIDTH / 2) - (play.getWidth() / 2), 900);
+        credits.setPosition((com.reddy.boxdrop.Main.WIDTH / 2) - (credits.getWidth() / 2),695);
+        tutorial.setPosition((com.reddy.boxdrop.Main.WIDTH / 2) - (credits.getWidth() / 2), 480);
         mute.setPosition(50, 50);
         stage.addActor(credits);
         stage.addActor(play);

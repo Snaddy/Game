@@ -1,4 +1,4 @@
-package com.reddy.geodrop.desktop;
+package com.reddy.boxdrop.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -8,8 +8,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Geo Drop";
-		config.width = Main.WIDTH;
-		config.height = Main.HEIGHT;
-		new LwjglApplication(new Main(), config);
+		config.width = com.reddy.boxdrop.Main.WIDTH;
+		config.height = com.reddy.boxdrop.Main.HEIGHT;
+		new LwjglApplication(new com.reddy.boxdrop.Main(), config);
 	}
 }

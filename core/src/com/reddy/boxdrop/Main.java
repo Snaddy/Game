@@ -1,4 +1,4 @@
-package com.reddy.geodrop;
+package com.reddy.boxdrop;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.reddy.geodrop.screens.SplashScreen;
+import com.reddy.boxdrop.screens.SplashScreen;
 
 public class Main extends Game {
 
@@ -40,7 +40,6 @@ public class Main extends Game {
 
 	@Override
 	public void create () {
-		ah.showB(false);
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, WIDTH, HEIGHT);

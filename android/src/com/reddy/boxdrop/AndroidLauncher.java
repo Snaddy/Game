@@ -1,4 +1,4 @@
-package com.reddy.geodrop;
+package com.reddy.boxdrop;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,8 +19,6 @@ public class AndroidLauncher extends AndroidApplication implements AdHandler {
 	private static final String TAG = "AndroidLauncher";
 	private final int SHOW_AD = 1;
 	private final int REQUEST_NEW_AD = 0;
-	private final int SHOW_BANNER = 1;
-	private final int HIDE_BANNER = 0;
 	protected InterstitialAd interstitialAd;
 	protected AdView adView;
 
@@ -34,21 +32,6 @@ public class AndroidLauncher extends AndroidApplication implements AdHandler {
 
 				case REQUEST_NEW_AD:
 					requestIA();
-					break;
-			}
-		}
-	};
-
-	Handler handler2 = new Handler(){
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case SHOW_BANNER:
-					adView.setVisibility(View.VISIBLE);
-					break;
-
-				case HIDE_BANNER:
-					adView.setVisibility(View.GONE);
 					break;
 			}
 		}
@@ -99,9 +82,5 @@ public class AndroidLauncher extends AndroidApplication implements AdHandler {
 	@Override
 	public void showI(boolean show) {
 		handler.sendEmptyMessage(show ? SHOW_AD : REQUEST_NEW_AD);
-	}
-
-	public void showB(boolean show) {
-		handler2.sendEmptyMessage(show ? SHOW_BANNER : HIDE_BANNER);
 	}
 }

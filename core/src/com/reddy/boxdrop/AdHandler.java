@@ -1,4 +1,4 @@
-package com.reddy.geodrop;
+package com.reddy.boxdrop;
 
 /**
  * Created by Hayden on 2017-02-02.
@@ -6,6 +6,4 @@ package com.reddy.geodrop;
 
 public interface AdHandler {
     public void showI(boolean show);
-
-    public void showB(boolean show);
 }
