@@ -231,7 +231,7 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
 
-        if(prefs.getInteger("deaths") >= 8) {
+        if(prefs.getInteger("deaths") >= 6) {
             game.ah.showI(true);
         }
 
